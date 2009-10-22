@@ -1,0 +1,131 @@
+UI left:
+0. Write function (id > x,y)
+1. Draw Light gray lines for all edges that exist
+2. Draw black lines for visited edges
+3. Fill visited rooms
+4. Fill current room
+5. Display score
+6. Draw objects
+
+
+===============================
+
+Dynamic allocation of circles:
+
+1) You have 2 sectors to deal with, so first divide the  remaining circles into 2 even parts so 4 > 2 or 3 > (3+1) > 2
+Lets call these circles per side as 'cps'
+
+2) Now we need to calculate the angles, so get 180/(cps+1)
+If u generate half the angles, the rest are just 180+original (Just generate first set of angles)
+
+3) Start processing angles based on 3 cats:
+    a) theta < 90 [x = Xc - rcos(theta)] and [y = Yc - r * sin(theta)]
+    b) theta = 90 [x = Xc] and [y = Yc - r * sin(theta)]
+    c) theta > 90 Change theta to (180 - theta) and then [x = Xc + rcos(theta)] and [y = Yc - r * sin(theta)]
+During this plase, by change - to + for the y-coordinates, you also get the other co-ords
+
+
+4) Finally just add 450+x and 350+y to shift the origin.
+
+
+
+
+
+
+
+============
+TASKS:
+1) Make sure play, step and pause can control GamePlay()
+Add Player Object to GameConfig
+2) GamePlay =
+    (a) Call move giving object detail into [state of room where player is now]
+    (b) Wait for Move [direction, object_action]
+    (c) use passage list to physically move from current room (update current room)
+        add to visited rooms if needed, visited passages [check visited of that rrl]
+        increase current round
+        process pickup and drop [room object list]
+        score (new room, new passage, treasure)
+            Note: Once you are in the treasure room, what to do if player returns any direction except '0'
+            For Now the reasoning is: If invalid direction, then keep player in that room, and let him use objects to deduce that
+            Else you can have an additional field that he has reached treasure room.
+    (d) Call UIController
+        STATIC:
+        set Centre of room
+        set circle size, determine radius, get circle co-ordinates
+        set start and treasure room
+        draw gray edges
+        DYNAMIC:
+        Draw current room, visited rooms
+        Draw traversed edges, double edges
+        Display score
+
+3) User Interface [Refer d] above
+
+
+Design document - Satyajeet Shaligram
+
+-- Simulator specs --
+GameEngine:
+
+myInit - Use IOController to load players and mazes
+
+BeginNewGame - creates GameConfig object from the Board selected using IOController
+            - also calls GameController.Play
+    step - calls gameplay once.
+    play - initiates a thread that keeps calling gameplay till interrupted.
+
+
+
+CLASSES:
+
+1. UIController: Can read GameConfig class and draw the UI on canvas for every move.
+                It should have a local copy of GameConfig which is updated before calling repaint.
+                Repaint OR paint should read the local GameConfig object and do the needful.
+
+2. GameController: Has a gameplay method which moves the game ahead by 1 move.
+                    it is given a player object that it uses.
+                  Game controller also can create a player object and return to game engine
+                  GameEngine needs to have a persistant copy of player that it keeps using and updating.
+
+3. IOController: has functions to read mazes from file, and to read player list
+
+4. GameConfig: Stores the state of the current game,score etc can be created from IOController as blank game
+
+5. Player: A class that students must extend
+
+
+USER STORIES:
+1. GE* populates playerlist using IOC* [DONE]
+2. GE* populates Mazelist using IOC* [DONE]
+3. GE* gets GConfig* object for a maze using IOC*
+4. "Begin new game" means that "player*" is given basic info via register and required params are set. [delay, score etc]
+5. "Step" calls GController*.GamePlay giving it "GConfig*" which is static object containing current state
+    the draw method for UIC* is also called with the GConfig* slightly changed [since a move was made.]
+6. Play launches a thread which does the same thing. Also set the delay etc.
+7. Gameplay calls move with info of object in the room, and expects direction and object command and object.
+8. GController* edits GameConfi*g since a move* was made, computes score etc.
+9. GController* returns score as result of GamePlay(player,GConfig) for tournaments.
+
+
+
+
+
+
+
+
+
+
+
+-- End of specs --
+
+
+----------------------ARCHIVES----------------------:
+
+MAIN TARGETS:
+convert file to GameConfig [IOController] <DONE>
+assign labels to directions and write functions of gameconfig that allow queries like (room, label) = which room?
+dynamic allocation of room circle coordinates [UIController] <done>
+use move to edit GameConfig [GameController]
+calculate score from GameConfig [GameController]
+- make gameplay return status (0,-1) to signal end of game and this can be used in a while loop for tournaments
+IOController checks validity of maze
