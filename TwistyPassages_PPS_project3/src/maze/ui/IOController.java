@@ -140,6 +140,13 @@ public class IOController {
                         int room2 = Integer.parseInt(nextLine[1]);
                         RoomRoomLink rrl = new RoomRoomLink(gameconfig.start_room, room2, Boolean.FALSE,0);
                         gameconfig.PassageList.add(rrl);
+                        // Also need to add self loop links
+                        for(int selfloop=1;selfloop<=9;selfloop++)
+                        {
+                        	 rrl = new RoomRoomLink(gameconfig.start_room,gameconfig.start_room , Boolean.FALSE,selfloop);
+                            gameconfig.PassageList.add(rrl);
+                        }
+                        
                         count++;
                         continue;
                     }
@@ -150,6 +157,12 @@ public class IOController {
                         int room2 = Integer.parseInt(nextLine[1]);
                         RoomRoomLink rrl = new RoomRoomLink(gameconfig.treasure_room, room2, Boolean.FALSE,0);
                         gameconfig.PassageList.add(rrl);
+                        // Also need to add self loop links
+                        for(int selfloop=1;selfloop<=9;selfloop++)
+                        {
+                        	 rrl = new RoomRoomLink(gameconfig.treasure_room,gameconfig.treasure_room , Boolean.FALSE,selfloop);
+                            gameconfig.PassageList.add(rrl);
+                        }
                         count++;
                         continue;
                     }

@@ -14,9 +14,9 @@ import maze.ui.Player;
  */
 public class Dumbplayer1 implements Player {
 
-    public Move move(int object_detail) {
+    public Move move(int object_detail, int number_of_objects, int number_of_turns) {
         
-        Move myMove = new Move(0,0);
+        Move myMove = new Move(1,0);
         return myMove;
 
     }
