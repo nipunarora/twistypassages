@@ -40,7 +40,7 @@ public class GameController {
         // Irrespective of where this function is called from, it needs to execute gameLogic based on
         // what is stored in gameConfig. Now we have to use Player Pobject to continue playing
         int objectHere = gameconfig.RoomObjectQuery(gameconfig.current_room);
-        Move currentMove = gameconfig.PObject.move(objectHere);
+        Move currentMove = gameconfig.PObject.move(objectHere, gameconfig.number_of_objects, gameconfig.number_of_turns);
 
         // Before the player moves, he decides to take an object decision
         //  Move.object_decision (-1 = pickup), (0, do nothing) and (1-26 possible object)
