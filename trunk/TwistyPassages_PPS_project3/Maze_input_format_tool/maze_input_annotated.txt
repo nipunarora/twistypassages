@@ -1,0 +1,7 @@
+5,20 < indicates 5 rooms and 20 rounds for solving this maze.
+1,2,1 < start room: 1 links to room number-2 and the edge weight is 1
+5,4,1 < treasure room: 5 links to room number-4 and edge weight has to be 1 again.
+2,3,5 < room-2 connected to room-3 with 5 passages between them.
+2,4,4 < the rest of the graph is written down in a similar way
+3,4,5 < All the remaining edges are allocated as self loops.
+-----
