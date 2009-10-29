@@ -1,2 +1,6 @@
 maze.g0.Dumbplayer1
+maze.g1.G1Player
+maze.g2.SmartPlayer2
 maze.g3.G3Player
+maze.g4.G4Amazer
+maze.g5.G5Player
