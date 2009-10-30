@@ -8,11 +8,11 @@ package maze.g3;
 import java.util.HashSet;
 import java.util.Random;
 
-import maze.g3.Logger;
-import maze.g3.Logger.LogLevel;
 
+import maze.g3.Logger.LogLevel;
 import maze.ui.Move;
 import maze.ui.Player;
+
 
 /**
  *
