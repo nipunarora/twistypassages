@@ -1,4 +1,4 @@
-package maze.g3;
+package maze.g3.data;
 
 public class Item {
 	
