@@ -5,14 +5,14 @@ import java.util.Vector;
 public class Node {
 	
 	private int object;
-	private Node[] doors= new Node[10]; 
+	private int[] doors= new int[10]; 
 	private Vector<Integer> neighbors= new Vector<Integer>();
 	
 	public void setObject(int object){
 		this.object=object;
 	}
 	
-	public void setDoor(int direction, Node n){
+	public void setDoor(int direction, int n){
 		this.doors[direction]= n;
 	}
 	

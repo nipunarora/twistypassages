@@ -14,4 +14,9 @@ public class Graph {
 		int key= map.size()+1;
 		map.put(key, n);
 	}
+	
+	public int sizeOfGraph(){
+		return this.map.size();
+	}
+
 }
