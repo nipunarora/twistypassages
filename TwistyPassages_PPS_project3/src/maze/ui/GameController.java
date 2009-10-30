@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class GameController {
 
     private int count;
+    private RoomDisplayWindow roomDisplayWindow = new RoomDisplayWindow();
 
     public GameController() {
         count = 0;
@@ -41,7 +42,7 @@ public class GameController {
         // what is stored in gameConfig. Now we have to use Player Pobject to continue playing
         int objectHere = gameconfig.RoomObjectQuery(gameconfig.current_room);
         Move currentMove = gameconfig.PObject.move(objectHere, gameconfig.number_of_objects, gameconfig.number_of_turns);
-
+        
         // Before the player moves, he decides to take an object decision
         //  Move.object_decision (-1 = pickup), (0, do nothing) and (1-26 possible object)
         // First room needs to be blank
@@ -87,6 +88,8 @@ public class GameController {
         gameconfig.current_room = gameconfig.passageQuery(old_room, currentMove.direction);
         // If current_room = -1 means the above move was illegal
         if(gameconfig.current_room==-1){System.out.println("Illegal Move"); return -1;}
+        
+        roomDisplayWindow.displayRoom(gameconfig.PassageList, gameconfig.current_room, old_room, currentMove);
 
         // Use NewRoom for scoring (later)
         Boolean NewRoom = gameconfig.addVisitedRoom(gameconfig.current_room);
