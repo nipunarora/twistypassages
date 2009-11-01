@@ -26,13 +26,6 @@ public class SystematicStrategy extends Strategy {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void addNode(Room n) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public Move move(int objectDetail, int numberOfObjects, int numberOfTurns) {
 		if (maze.isFirstRoom) {
 			// START ROOM

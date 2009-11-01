@@ -18,8 +18,6 @@ public abstract class Strategy {
 	// bag of unique objects that shrinks or grows according to which objects have been dropped
 	protected HashSet<Item> bagOfItems = new HashSet();
 	
-	public abstract void addNode(Room n);
-	
 	public abstract Move move(int object_detail, int number_of_objects, int number_of_turns);
 	
 }
