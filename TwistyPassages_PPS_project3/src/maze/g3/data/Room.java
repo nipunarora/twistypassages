@@ -20,6 +20,9 @@ public class Room {
 
 	// The key is the door number, value is the Room reached by this door.
 	Map<Integer, Room> doorToRoomMap = new HashMap<Integer, Room>();
+	
+	// The index represents the door number and the RoomKey represents the room
+	int[] doorRoomkey= new int[10];
 
 	// This is the door that the previous move has taken.
 	private int doorTaken = -1;
