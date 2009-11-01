@@ -370,6 +370,7 @@ public class GameEngine extends javax.swing.JFrame {
                 .addGap(32, 32, 32))
         );
 
+      
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -610,7 +611,36 @@ public class GameEngine extends javax.swing.JFrame {
         populatePlayerList();
         populateMazeList();
         txtbox_number_of_objects3.selectAll();
+        
+        int number_of_objects = Integer.parseInt(txtbox_number_of_objects3.getText());
+        // Lets instantiate the gameconfig object for starters
+        gameconfig = null;
 
+        gameconfig = iocontroller.makeGameConfig("test1.maze","maze.g3.G3Player",number_of_objects);
+        uicontroller = null;
+        uicontroller = new UIController();
+        uicontroller.gc_local = gameconfig;
+//        uicontroller.repaint();
+
+        buff_im = uicontroller.getImage();
+
+        if(game_scrollpane != null)
+        {
+            this.remove(game_scrollpane);
+            
+        }
+        game_jlabel = null;
+        game_scrollpane = null;
+        game_jlabel = new JLabel(new ImageIcon(buff_im));
+        game_scrollpane = new JScrollPane(game_jlabel);
+        game_scrollpane.setLocation(20, 120);
+        game_scrollpane.setSize(650, 600);
+        this.add(game_scrollpane);
+        game_scrollpane.repaint();
+        this.validate();
+        txt_round.setText(Integer.toString(gameconfig.current_round));
+         txt_score.setText(Integer.toString(gameconfig.current_score));
+         zoomSlider.setValue(2);
        
 
 

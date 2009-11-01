@@ -5,21 +5,27 @@ import java.util.Random;
 import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
 import maze.g3.data.Item;
-import maze.g3.data.Node;
+import maze.g3.data.Maze;
+import maze.g3.data.Room;
 import maze.ui.Move;
 
 public class NaiveStrat extends Strategy {
 
 	private boolean gameStart = true;
-	private Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
+	public  Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
 	
 	// toggle to systematically explore tunnels
 	private boolean systematicExploration = true;
 	private int whichTunnel = 0;
 	private Random random = new Random();
 	
-	public void addNode(Node n) {
-		int key= this.g.sizeOfGraph()+1;
+	public NaiveStrat(Maze maze)
+	{
+		super(maze);
+	}
+	
+	public void addNode(Room n) {
+		int key= this.maze.sizeOfMaze()+1;
 		
 	}
 	
