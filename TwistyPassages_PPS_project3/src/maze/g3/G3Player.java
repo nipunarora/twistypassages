@@ -6,7 +6,6 @@
 package maze.g3;
 
 import maze.g3.data.Maze;
-import maze.g3.strategy.NaiveStrat;
 import maze.g3.strategy.Strategy;
 import maze.g3.strategy.SystematicStrategy;
 import maze.ui.Move;
@@ -25,14 +24,8 @@ public class G3Player implements Player {
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
 	
 		Strategy strat;
-		if(true)
-		{ 
-			strat = new SystematicStrategy(maze);
+		strat = new SystematicStrategy(maze);
 			
-		}
-		else {
-		strat = new NaiveStrat(maze);
-		}
 		
 		return strat.move(object_detail, number_of_objects, number_of_turns);
 	
