@@ -5,14 +5,10 @@
 
 package maze.g3;
 
-import java.util.HashSet;
-import java.util.Random;
-
-
-import maze.g3.Logger.LogLevel;
-import maze.g3.data.Item;
+import maze.g3.data.Maze;
 import maze.g3.strategy.NaiveStrat;
 import maze.g3.strategy.Strategy;
+import maze.g3.strategy.SystematicStrategy;
 import maze.ui.Move;
 import maze.ui.Player;
 
@@ -24,11 +20,19 @@ import maze.ui.Player;
  * @author Colin
  */
 public class G3Player implements Player {
+	private Maze maze = new Maze();
 	
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
 	
 		Strategy strat;
-		strat = new NaiveStrat();
+		if(true)
+		{ 
+			strat = new SystematicStrategy(maze);
+			
+		}
+		else {
+		strat = new NaiveStrat(maze);
+		}
 		
 		return strat.move(object_detail, number_of_objects, number_of_turns);
 	
