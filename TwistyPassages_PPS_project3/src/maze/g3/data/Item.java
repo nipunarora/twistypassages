@@ -5,14 +5,14 @@ public class Item {
 	private int indexNumber;
 	
 	public Item ( int indexNumber ) {
-		setIndexNumber( indexNumber );
+		setLabel( indexNumber );
 	}
 
 	
 	/**
 	 * @param indexNumber the indexNumber to set
 	 */
-	public void setIndexNumber(int indexNumber) {
+	public void setLabel(int indexNumber) {
 		this.indexNumber = indexNumber;
 	}
 
@@ -20,7 +20,7 @@ public class Item {
 	/**
 	 * @return the indexNumber
 	 */
-	public int getIndexNumber() {
+	public int getLabel() {
 		return indexNumber;
 	}
 
