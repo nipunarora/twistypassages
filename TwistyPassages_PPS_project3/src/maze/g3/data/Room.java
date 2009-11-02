@@ -16,15 +16,20 @@ public class Room {
 
 	private int roomId;
 	private RoomType roomType;
-	private int item;
+	//Nipun: Why is this item an integer and not the item object?
+	private int item=0;
+	//Counter for the number of knownEdges 
+	public int knownEdgesCount;
+	//Counter for knownRoom Connects
+	public Vector knownRoomConnects;
 
 	// The key is the door number, value is the Room reached by this door.
-	Map<Integer, Room> doorToRoomMap = new HashMap<Integer, Room>();
+	public Map<Integer, Room> doorToRoomMap = new HashMap<Integer, Room>();
 	
 	// The index represents the door number and the RoomKey represents the room
 	int[] doorRoomkey= new int[10];
 
-	// This is the door that the previous move has taken.
+	// This is the door that the previous move has taken.-- Nipun : why is this a part of Room??
 	private int doorTaken = -1;
 
 	public Room(int roomId) {
@@ -60,6 +65,10 @@ public class Room {
 
 	public void setItem(int object) {
 		this.item = object;
+	}
+	
+	public void setItem(Item item){
+		this.item= item.getLabel();
 	}
 
 	public int getId() {

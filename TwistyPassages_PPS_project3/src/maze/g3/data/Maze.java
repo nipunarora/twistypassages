@@ -111,13 +111,33 @@ public class Maze {
 		itemsDroppedCount++;
 		return room;
 	}
-	
 	public Room createNewRoom() {
 		Room room = new Room(roomCount);
 		addNewRoom(roomCount, room);
 		roomCount++;
 		return room;
 	}
-	
-
+	/**
+	 * Initialize Maze
+	 * adds the first room which is the starting room
+	 * adds the room accessed through door 0 in the first move
+	 */
+	public void initializeMaze(){
+		//STARTING ROOM Population
+		Room room = new Room(roomCount);
+		room.doorRoomkey[0]=2;
+		room.knownEdgesCount++;
+		for(int i=1; i<=9;i++){
+			room.doorRoomkey[i]=1;
+			room.knownEdgesCount++;
+		}
+		addNewRoom(roomCount,room);
+		
+		//First ROOM population
+		roomCount=2;
+		Room r= new Room(roomCount);
+		addNewRoom(roomCount,r);
+		previousRoom=room;
+		currentRoom=r;
+	}
 }

@@ -23,20 +23,35 @@ public class BagOfHolding {
 		log.debug("after fill bag size:"+bag.size());
 	}
 	
+	
 	public void dropItemIfAvailable() {
 		if( this.isNotEmpty() ) {
 			this.lastItemLabel = this.useItem().getLabel();
 			log.debug("lastitem:"+this.lastItemLabel);
 		}
 	}
-	
-//must check size before using
+	/**
+	 * Pops Item and returns the topmost item
+	 * returns null if empty
+	 * @return
+	 */
+	public Item getItem(){
+		if(this.isNotEmpty()){
+			return this.useItem();
+		}
+		else{
+			return null;
+		}
+	}
 	public Item useItem () {
 		Item item = bag.get( 0 );
 		bag.remove( 0 );
 		return item;
 	}
-	
+	/**
+	 * adds item to the bag
+	 * @param item
+	 */
 	public void returnItem ( Item item ) {
 		bag.add( item );
 	}

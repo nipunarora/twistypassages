@@ -6,6 +6,9 @@
 package maze.g3;
 
 import maze.g3.data.BagOfHolding;
+import maze.g3.data.History;
+import maze.g3.data.Path;
+
 import maze.g3.data.Maze;
 import maze.g3.strategy.Strategy;
 import maze.g3.strategy.SystematicStrategy;
@@ -21,15 +24,23 @@ import maze.ui.Player;
  */
 public class G3Player implements Player {
 	private Maze maze = new Maze();
+	public static int StagCounter=0;
+	public static Path path= new Path();
+	History history= new History();
 	private BagOfHolding bag = new BagOfHolding();
 	
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
-	
+		
+		
 		Strategy strat;
 		strat = new SystematicStrategy(maze,bag);
-			
+		int startingRoom= 	maze.roomCount;
+		Move action =strat.move(object_detail, number_of_objects, number_of_turns); 
+		int door= strat.actionDoor;
 		
-		return strat.move(object_detail, number_of_objects, number_of_turns);
+		
+		history.addPath(startingRoom, door, startingRoom+1);
+		return action;
 	
     }
 
