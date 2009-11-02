@@ -14,7 +14,7 @@ import maze.ui.Move;
  *
  */
 public class SystematicStrategy extends Strategy {
-	
+
 	/**
 	 * @param bag 
 	 * 
@@ -102,9 +102,11 @@ public class SystematicStrategy extends Strategy {
 
 		maze.previousRoom = maze.currentRoom;
 		log.debug("MOVE taken .." + maze.currentRoom.getId() + "_"
-				+ maze.currentRoom.getDoorTaken() + 
-				( bag.lastItemLabel > 0 ? " item dropped " + bag.lastItemLabel : ""));
-		return new Move(maze.currentRoom.getDoorToTake(), bag.lastItemLabel);
+				+ maze.currentRoom.getDoorTaken() + " item dropped "
+				+ maze.currentItemToDrop);
+		actionDoor=maze.currentRoom.getDoorTaken();
+		actionItem=maze.currentItemToDrop;
+		return new Move(actionDoor, actionItem);
 	}
 	
 	

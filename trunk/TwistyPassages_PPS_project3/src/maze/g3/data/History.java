@@ -15,7 +15,7 @@ public class History {
 	 * @param door
 	 * @param destinationRoom
 	 */
-	void addPath(int startingRoom, int door, int destinationRoom){
+	public void addPath(int startingRoom, int door, int destinationRoom){
 		Edge e= new Edge(startingRoom, door,destinationRoom);
 		historyPath.add(e);
 	}

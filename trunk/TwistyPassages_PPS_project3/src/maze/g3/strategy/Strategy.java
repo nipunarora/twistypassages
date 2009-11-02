@@ -13,7 +13,8 @@ import maze.ui.Move;
 public abstract class Strategy {
 	
 	protected Maze maze;
-
+	public int actionDoor;
+	public int actionItem;
 	// bag of unique objects that shrinks or grows according to which objects have been dropped
 	protected BagOfHolding bag;
 
@@ -26,4 +27,13 @@ public abstract class Strategy {
 	}
 
 	public abstract Move move(int object_detail, int number_of_objects, int number_of_turns);
+	
+	public void SetItem(Room r){
+		if(bag.isNotEmpty()){
+			r.setItem(bag.getItem());
+		}
+		else{
+			r.setItem(new Item(0));
+		}
+	}
 }
