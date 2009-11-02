@@ -112,6 +112,12 @@ public class Maze {
 		return room;
 	}
 	
+	public Room createNewRoom() {
+		Room room = new Room(roomCount);
+		addNewRoom(roomCount, room);
+		roomCount++;
+		return room;
+	}
 	
 
 }

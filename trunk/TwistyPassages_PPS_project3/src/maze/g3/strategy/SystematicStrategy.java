@@ -3,8 +3,7 @@
  */
 package maze.g3.strategy;
 
-import maze.g3.Logger;
-import maze.g3.Logger.LogLevel;
+import maze.g3.data.BagOfHolding;
 import maze.g3.data.Maze;
 import maze.g3.data.Room;
 import maze.g3.data.Room.RoomType;
@@ -16,29 +15,36 @@ import maze.ui.Move;
  */
 public class SystematicStrategy extends Strategy {
 	
-	private Logger log = new Logger(LogLevel.DEBUG, this.getClass());
-
 	/**
+	 * @param bag 
 	 * 
 	 */
-	public SystematicStrategy(Maze maze) {
-		super(maze);
+	public SystematicStrategy(Maze maze, BagOfHolding bag) {
+		super(maze,bag);
 		// TODO Auto-generated constructor stub
 	}
 
 	public Move move(int objectDetail, int numberOfObjects, int numberOfTurns) {
+		
+		bag.lastItemLabel = 0;
+		
 		if (maze.isFirstRoom) {
 			// START ROOM
 			// TODO if the first room is visited again then update the doors
 			// that lead to self loops
 			maze.isFirstRoom = false;
-			maze.currentRoom = maze.createNewRoomAndDropItem();
+			bag.fill( numberOfObjects );
+			maze.currentRoom = maze.createNewRoom();
 			maze.currentRoom.setDoorToTake(0);
+			bag.dropItemIfAvailable();
+			maze.currentRoom.setItem( bag.lastItemLabel );
 			maze.currentRoom.setRoomType(RoomType.START);
 			maze.currentRoom.setStartRoomLinksToSelf();
 		} else if (objectDetail == 0) {
 			// unvisited room.. so create new room and drop item
-			maze.currentRoom = maze.createNewRoomAndDropItem();
+			maze.currentRoom = maze.createNewRoom();
+			bag.dropItemIfAvailable();
+			maze.currentRoom.setItem( bag.lastItemLabel );
 			maze.previousRoom.setRoomLink(maze.previousRoom.getDoorTaken(), maze.currentRoom);
 
 			// Dont know any thing about the room so can take any unknown door.
@@ -96,9 +102,9 @@ public class SystematicStrategy extends Strategy {
 
 		maze.previousRoom = maze.currentRoom;
 		log.debug("MOVE taken .." + maze.currentRoom.getId() + "_"
-				+ maze.currentRoom.getDoorTaken() + " item dropped "
-				+ maze.currentItemToDrop);
-		return new Move(maze.currentRoom.getDoorToTake(), maze.currentItemToDrop);
+				+ maze.currentRoom.getDoorTaken() + 
+				( bag.lastItemLabel > 0 ? " item dropped " + bag.lastItemLabel : ""));
+		return new Move(maze.currentRoom.getDoorToTake(), bag.lastItemLabel);
 	}
 	
 	
