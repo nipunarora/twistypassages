@@ -27,7 +27,7 @@ public class Room {
 	public Map<Integer, Room> doorToRoomMap = new HashMap<Integer, Room>();
 	
 	// The index represents the door number and the RoomKey represents the room
-	int[] doorRoomkey= new int[10];
+	public int[] doorRoomKey= new int[10];
 
 	// This is the door that the previous move has taken.-- Nipun : why is this a part of Room??
 	private int doorTaken = -1;

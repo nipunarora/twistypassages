@@ -5,6 +5,8 @@
 
 package maze.g3;
 
+import java.util.HashMap;
+
 import maze.g3.data.BagOfHolding;
 import maze.g3.data.History;
 import maze.g3.data.Path;
@@ -27,6 +29,7 @@ public class G3Player implements Player {
 	public static int StagCounter=0;
 	public static Path path= new Path();
 	History history= new History();
+	public  static HashMap<Integer,Integer> eliminationList= new HashMap<Integer,Integer>();
 	private BagOfHolding bag = new BagOfHolding();
 	
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
