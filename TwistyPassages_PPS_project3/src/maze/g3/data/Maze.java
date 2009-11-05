@@ -125,10 +125,10 @@ public class Maze {
 	public void initializeMaze(){
 		//STARTING ROOM Population
 		Room room = new Room(roomCount);
-		room.doorRoomkey[0]=2;
+		room.doorRoomKey[0]=2;
 		room.knownEdgesCount++;
 		for(int i=1; i<=9;i++){
-			room.doorRoomkey[i]=1;
+			room.doorRoomKey[i]=1;
 			room.knownEdgesCount++;
 		}
 		addNewRoom(roomCount,room);

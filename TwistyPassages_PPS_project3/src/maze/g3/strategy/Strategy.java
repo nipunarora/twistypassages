@@ -28,7 +28,7 @@ public abstract class Strategy {
 
 	public abstract Move move(int object_detail, int number_of_objects, int number_of_turns);
 	
-	public void SetItem(Room r){
+	public void setItem(Room r){
 		if(bag.isNotEmpty()){
 			r.setItem(bag.getItem());
 		}
