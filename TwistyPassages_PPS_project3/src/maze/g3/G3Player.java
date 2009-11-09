@@ -40,9 +40,16 @@ public class G3Player implements Player {
 	public static HashMap<Integer,Integer> itemMapList= new HashMap<Integer,Integer>();
 	/**boolean flags**/
 	public static boolean treasureRoomFlag=false;
+	public static int number_of_objects;
 	
 	boolean first =true;
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
+		this.number_of_objects = number_of_objects;
+		
+//		if(true)
+//		{
+//			return new SystematicStrategy(maze, bag).move(object_detail, number_of_objects, number_of_turns);
+//		}
 		
 		if(first){
 			bag.fill(number_of_objects);
