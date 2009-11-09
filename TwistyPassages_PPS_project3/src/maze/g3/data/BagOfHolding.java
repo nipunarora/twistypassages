@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
 
+/**
+ * 
+ * @author colin
+ *
+ */
+
 public class BagOfHolding {
 	
 	private Logger log = new Logger(LogLevel.DEBUG, this.getClass());

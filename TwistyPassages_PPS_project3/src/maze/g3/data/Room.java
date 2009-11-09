@@ -28,6 +28,9 @@ public class Room {
 	
 	// The index represents the door number and the RoomKey represents the room
 	public int[] doorRoomKey= new int[10];
+	
+	//this edge represents a segment of the temporary path used to get to target room via a shortest distance 
+	public Edge pathSegment;
 
 	// This is the door that the previous move has taken.-- Nipun : why is this a part of Room??
 	private int doorTaken = -1;
