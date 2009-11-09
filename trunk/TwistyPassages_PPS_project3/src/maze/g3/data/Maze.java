@@ -107,12 +107,6 @@ public class Maze {
 		Room room = new Room(roomCount);
 		addNewRoom(roomCount, room);
 		currentItemToDrop = itemsDroppedCount;
-		if(itemsDroppedCount > G3Player.number_of_objects) {
-			currentItemToDrop = 0;
-		}
-		else {
-			itemsDroppedCount++;
-		}
 		room.setItem(currentItemToDrop);
 		roomCount++;
 		itemsDroppedCount++;
