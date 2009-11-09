@@ -31,9 +31,10 @@ public class G3Player implements Player {
 	History history= new History();
 	public  static HashMap<Integer,Integer> eliminationList= new HashMap<Integer,Integer>();
 	private BagOfHolding bag = new BagOfHolding();
+	public static int  number_of_objects = 0;
 	
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
-		
+		this.number_of_objects = number_of_objects;
 		
 		Strategy strat;
 		strat = new SystematicStrategy(maze,bag);
