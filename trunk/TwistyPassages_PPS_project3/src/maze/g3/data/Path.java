@@ -27,11 +27,19 @@ public class Path {
 	 * @param room
 	 * @param destinationRoom
 	 */
-	public void addPath(int startRoom, int room, int destinationRoom){
-		Edge e= new Edge(startRoom,room,destinationRoom);
+	public void addPath(int startRoom, int door, int destinationRoom){
+		Edge e= new Edge(startRoom,door,destinationRoom);
+		Boolean flag=false;
 		if(startPaths.containsKey(startRoom)){
 			//Nipun: need to put checks if edge already exists in the vector? 
+			for(int i=0;i<startPaths.get(startRoom).size();i++){
+				if(e.equals(startPaths.get(i))){
+					flag=true;
+				}
+			}
+			if(flag==false){
 			startPaths.get(startRoom).add(e);
+			}
 		}
 		else{
 			Vector<Edge> v= new Vector<Edge>();
@@ -40,7 +48,14 @@ public class Path {
 		}
 		if(destinationPaths.containsKey(startRoom)){
 			//Nipun: need to put checks if edge already exists in the vector? 
+			for(int i=0;i<startPaths.get(startRoom).size();i++){
+				if(e.equals(startPaths.get(i))){
+					flag=true;
+				}
+			}
+			if(flag==false){
 			destinationPaths.get(startRoom).add(e);
+			}
 		}
 		else{
 			Vector<Edge> v= new Vector<Edge>();
