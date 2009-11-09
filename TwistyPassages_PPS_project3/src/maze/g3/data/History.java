@@ -26,7 +26,27 @@ public class History {
 	void addItem(Item i){
 		itemHistory.add(i);
 	}
+	/**
+	 * get the last Edge Traversed
+	 * @return
+	 */
+	public Edge getLastEdge(){
+		Edge e= historyPath.get(historyPath.size());
+		return  e;
+	}
 	
+	/**
+	 * get the id of the last Room encountered from the history
+	 * @return
+	 */
+	public int getLastRoom(){
+		int lastRoomId= historyPath.get(historyPath.size()).StartRoom;
+		return lastRoomId;
+	}
 	
+	public int getLastDoor(){
+		int lastDoor=historyPath.get(historyPath.size()).door;
+		return lastDoor;
+	}
 	
 }

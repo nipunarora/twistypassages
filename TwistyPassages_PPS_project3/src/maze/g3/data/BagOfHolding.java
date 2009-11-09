@@ -22,6 +22,11 @@ public class BagOfHolding {
 		bag = new ArrayList<Item> ();
 	}
 
+	public void printBag(){
+		System.out.println("size of bag: "+ bag.size());
+		for(int i=0;i<bag.size();i++)
+			System.out.print(bag.get(i).getLabel());
+	}
 	public void fill( int totalNumberOfItems ) {
 		for (int i=2; i<=totalNumberOfItems; i++) {
 			bag.add( new Item( i ));
@@ -49,6 +54,7 @@ public class BagOfHolding {
 			return null;
 		}
 	}
+	
 	public Item useItem () {
 		Item item = bag.get( 0 );
 		bag.remove( 0 );
@@ -58,7 +64,8 @@ public class BagOfHolding {
 	 * adds item to the bag
 	 * @param item
 	 */
-	public void returnItem ( Item item ) {
+	public void returnItem ( int i ) {
+		Item item= new Item(i);
 		bag.add( item );
 	}
 	

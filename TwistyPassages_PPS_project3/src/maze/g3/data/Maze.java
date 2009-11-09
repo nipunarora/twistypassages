@@ -115,11 +115,9 @@ public class Maze {
 		}
 		room.setItem(currentItemToDrop);
 		roomCount++;
-		
+		itemsDroppedCount++;
 		return room;
 	}
-	
-	
 	public Room createNewRoom() {
 		Room room = new Room(roomCount);
 		addNewRoom(roomCount, room);
@@ -132,13 +130,16 @@ public class Maze {
 	 * adds the room accessed through door 0 in the first move
 	 */
 	public void initializeMaze(){
+		isFirstRoom=false;
 		//STARTING ROOM Population
+		roomCount=1;
 		Room room = new Room(roomCount);
 		room.doorRoomKey[0]=2;
 		room.knownEdgesCount++;
 		for(int i=1; i<=9;i++){
 			room.doorRoomKey[i]=1;
 			room.knownEdgesCount++;
+			G3Player.path.addPath(1, i, 1);
 		}
 		addNewRoom(roomCount,room);
 		
