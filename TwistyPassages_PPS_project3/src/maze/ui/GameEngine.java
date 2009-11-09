@@ -13,6 +13,7 @@ package maze.ui;
 
 import java.awt.Dimension;
 import java.awt.Panel;
+import java.awt.Point;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.image.BufferedImage;
@@ -53,9 +54,9 @@ public class GameEngine extends javax.swing.JFrame {
                    JOptionPane.showMessageDialog(game_scrollpane, gameover);
                 }
                 uicontroller.gc_local = gameconfig;
-//                uicontroller.repaint();
-                buff_im = uicontroller.getImage();
-                 game_jlabel.repaint();
+                
+                uicontroller.repaint();
+
                 game_scrollpane.repaint();
 
                 txt_round_copy.setText(Integer.toString(gameconfig.current_round));
@@ -77,13 +78,15 @@ public class GameEngine extends javax.swing.JFrame {
     static Boolean play;
     static GameController gamecontroller;
     static GameConfig gameconfig;
-    static UIController uicontroller;
+    static JBVisualizer uicontroller;
     static IOController iocontroller;
-    static BufferedImage buff_im;
-    static JLabel game_jlabel;
+
+
     static JScrollPane game_scrollpane;
     static JTextField txt_round_copy;
     static JTextField txt_score_copy;
+    
+    
     /** Creates new form GameEngine */
     public GameEngine() {
         initComponents();
@@ -117,6 +120,8 @@ public class GameEngine extends javax.swing.JFrame {
         txt_score = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         zoomSlider = new javax.swing.JSlider();
+
+
         NewGameButton = new javax.swing.JButton();
         StepButton = new javax.swing.JButton();
         PlayButton = new javax.swing.JButton();
@@ -174,10 +179,10 @@ public class GameEngine extends javax.swing.JFrame {
         jLabel3.setText("Image zoom:");
 
         zoomSlider.setMajorTickSpacing(1);
-        zoomSlider.setMaximum(8);
+        zoomSlider.setMaximum(100);
         zoomSlider.setMinimum(1);
         zoomSlider.setMinorTickSpacing(1);
-        zoomSlider.setValue(3);
+        zoomSlider.setValue(9);
         zoomSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 zoomSliderStateChanged(evt);
@@ -370,7 +375,6 @@ public class GameEngine extends javax.swing.JFrame {
                 .addGap(32, 32, 32))
         );
 
-      
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -409,10 +413,12 @@ public class GameEngine extends javax.swing.JFrame {
 //       uicontroller.validate();
 //       this.validate();
     // GET IMAGE FROM UIC and load give reference
-        buff_im = uicontroller.getImage();
-        game_jlabel.repaint();
-        game_scrollpane.repaint();
-
+//        buff_im = uicontroller.getImage();
+//        game_jlabel.repaint();
+       uicontroller.repaint();
+       game_scrollpane.repaint();
+        
+        
         txt_round.setText(Integer.toString(gameconfig.current_round));
          txt_score.setText(Integer.toString(gameconfig.current_score));
 
@@ -468,24 +474,25 @@ public class GameEngine extends javax.swing.JFrame {
 
         gameconfig = iocontroller.makeGameConfig(mazename,playername,number_of_objects);
         uicontroller = null;
-        uicontroller = new UIController();
+        uicontroller = new JBVisualizer();
         uicontroller.gc_local = gameconfig;
+        uicontroller.setZoom(zoomSlider.getValue());
+
 //        uicontroller.repaint();
 
-        buff_im = uicontroller.getImage();
+//        buff_im = uicontroller.getImage();
 
         if(game_scrollpane != null)
         {
             this.remove(game_scrollpane);
             
         }
-        game_jlabel = null;
         game_scrollpane = null;
-        game_jlabel = new JLabel(new ImageIcon(buff_im));
-        game_scrollpane = new JScrollPane(game_jlabel);
+        game_scrollpane = new JScrollPane(uicontroller);
         game_scrollpane.setLocation(20, 120);
         game_scrollpane.setSize(650, 600);
         this.add(game_scrollpane);
+        uicontroller.repaint();
         game_scrollpane.repaint();
         this.validate();
         txt_round.setText(Integer.toString(gameconfig.current_round));
@@ -494,7 +501,7 @@ public class GameEngine extends javax.swing.JFrame {
         //System.out.println("New Created");
         // Now we wait for GamePlay to be launched for this game configuration
 
-       
+         game_scrollpane.getViewport().setViewPosition(new Point(300,200));
     }//GEN-LAST:event_NewGameButtonActionPerformed
 
     private void DelaySliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_DelaySliderStateChanged
@@ -513,25 +520,26 @@ public class GameEngine extends javax.swing.JFrame {
         }
         gameconfig.zoomValue = zoomSlider.getValue();
          uicontroller = null;
-        uicontroller = new UIController();
-        uicontroller.gc_local = gameconfig;
-//        uicontroller.repaint();
-        uicontroller.setImage();
+        uicontroller = new JBVisualizer();
+        uicontroller.setZoom(zoomSlider.getValue());
 
-        buff_im = uicontroller.getImage();
+        uicontroller.gc_local = gameconfig;
+        uicontroller.layoutGraph();        
+//        uicontroller.repaint();
+
 
         if(game_scrollpane != null)
         {
             this.remove(game_scrollpane);
 
         }
-        game_jlabel = null;
         game_scrollpane = null;
-        game_jlabel = new JLabel(new ImageIcon(buff_im));
-        game_scrollpane = new JScrollPane(game_jlabel);
+        uicontroller.repaint();
+        game_scrollpane = new JScrollPane(uicontroller);
         game_scrollpane.setLocation(20, 120);
         game_scrollpane.setSize(650, 600);
         this.add(game_scrollpane);
+        
         game_scrollpane.repaint();
         this.validate();
 
@@ -589,9 +597,9 @@ public class GameEngine extends javax.swing.JFrame {
        
         txt_round_copy = this.txt_round;
         txt_score_copy = this.txt_score;
-        uicontroller = new UIController();
+        uicontroller = new JBVisualizer();
+        uicontroller.setZoom(zoomSlider.getValue());
 
-       
 
 //       uicontroller.setLocation(20, 100);
 //        uicontroller.setSize(new Dimension(900, 700));
@@ -611,42 +619,26 @@ public class GameEngine extends javax.swing.JFrame {
         populatePlayerList();
         populateMazeList();
         txtbox_number_of_objects3.selectAll();
-        
-        int number_of_objects = Integer.parseInt(txtbox_number_of_objects3.getText());
-        // Lets instantiate the gameconfig object for starters
-        gameconfig = null;
 
-        gameconfig = iocontroller.makeGameConfig("test1.maze","maze.g3.G3Player",number_of_objects);
-        uicontroller = null;
-        uicontroller = new UIController();
-        uicontroller.gc_local = gameconfig;
-//        uicontroller.repaint();
-
-        buff_im = uicontroller.getImage();
-
-        if(game_scrollpane != null)
-        {
-            this.remove(game_scrollpane);
-            
-        }
-        game_jlabel = null;
-        game_scrollpane = null;
-        game_jlabel = new JLabel(new ImageIcon(buff_im));
-        game_scrollpane = new JScrollPane(game_jlabel);
-        game_scrollpane.setLocation(20, 120);
-        game_scrollpane.setSize(650, 600);
-        this.add(game_scrollpane);
-        game_scrollpane.repaint();
-        this.validate();
-        txt_round.setText(Integer.toString(gameconfig.current_round));
-         txt_score.setText(Integer.toString(gameconfig.current_score));
-         zoomSlider.setValue(2);
-       
+       jonBellInit();
 
 
     }
 
-    
+
+    private void jonBellInit()
+    {
+    	int i = 0;
+    	for(i = 0; i<PlayerList3.getModel().getSize();i++)
+    	{
+    		if(PlayerList3.getModel().getElementAt(i).equals("maze.g2.SmartPlayer2"))
+    			break;
+    	}
+    	PlayerList3.setSelectedIndex(i);
+    	MazeList3.setSelectedIndex(0);
+    	NewGameButtonActionPerformed(null);
+    	
+    }
 
     public void populatePlayerList()
     {

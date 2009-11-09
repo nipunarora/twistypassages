@@ -3,6 +3,7 @@ package maze.g3.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import maze.g3.G3Player;
 import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
 import maze.g3.data.Room.RoomType;
@@ -106,11 +107,19 @@ public class Maze {
 		Room room = new Room(roomCount);
 		addNewRoom(roomCount, room);
 		currentItemToDrop = itemsDroppedCount;
+		if(itemsDroppedCount > G3Player.number_of_objects) {
+			currentItemToDrop = 0;
+		}
+		else {
+			itemsDroppedCount++;
+		}
 		room.setItem(currentItemToDrop);
 		roomCount++;
-		itemsDroppedCount++;
+		
 		return room;
 	}
+	
+	
 	public Room createNewRoom() {
 		Room room = new Room(roomCount);
 		addNewRoom(roomCount, room);
