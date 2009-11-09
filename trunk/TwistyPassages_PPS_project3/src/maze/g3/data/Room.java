@@ -44,8 +44,9 @@ public class Room {
 		if (room2 != null) {
 			log.debug("A link from room_door " + roomId + "_"
 						+ doorNum + " to room " + room.getId() + " exists already.");
-			//throw new RuntimeException("A link from room_door " + roomId + "_"
-				//	+ doorNum + " to room " + room.getId() + " exists already.");
+			return; 
+//			throw new RuntimeException("A link from room_door " + roomId + "_"
+//					+ doorNum + " to room " + room.getId() + " exists already.");
 		}
 		doorToRoomMap.put(doorNum, room);
 	}

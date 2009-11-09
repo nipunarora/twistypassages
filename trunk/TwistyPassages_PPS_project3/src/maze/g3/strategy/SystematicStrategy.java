@@ -19,10 +19,14 @@ public class SystematicStrategy extends Strategy {
 
 	/**
 	 * @param bag 
-	 * 
 	 */
 	public SystematicStrategy(Maze maze, BagOfHolding bag) {
 		super(maze,bag);
+	}
+	
+	public void print(String info)
+	{
+		log.debug(info);
 	}
 
 	public Move move(int objectDetail, int numberOfObjects, int numberOfTurns) {
@@ -36,6 +40,8 @@ public class SystematicStrategy extends Strategy {
 			maze.currentRoom.setDoorToTake(0);
 			maze.currentRoom.setRoomType(RoomType.START);
 			maze.currentRoom.setStartRoomLinksToSelf();
+			print("Entered start room");
+			
 		} else if (objectDetail == 0) {
 			// unvisited room.. so create new room and drop item
 			maze.currentRoom = maze.createNewRoomAndDropItem();
@@ -43,8 +49,9 @@ public class SystematicStrategy extends Strategy {
 
 			// Dont know any thing about the room so can take any unknown door.
 			maze.currentRoom.setDoorToTake(maze.currentRoom.getUnknownDoorExit());
+			print("Unvisitied room dropping item and setting link");
 
-		} else if (objectDetail == 1) {
+		} else if (objectDetail == 1 && maze.getTreasureRoom() == null) {
 			// TREASURE ROOM
 			maze.currentRoom = maze.getTreasureRoom();
 			if (maze.currentRoom == null) {
@@ -53,6 +60,7 @@ public class SystematicStrategy extends Strategy {
 				maze.currentRoom = maze.createTreasureRoom();
 				maze.previousRoom.setRoomLink(maze.previousRoom.getDoorTaken(),
 						maze.currentRoom);
+				print("first visit to treasure room");
 
 			} else {
 				
@@ -64,6 +72,7 @@ public class SystematicStrategy extends Strategy {
 				// doors to self
 				maze.currentRoom.setUnknownLinksToSelf();
 				maze.currentItemToDrop = 0;
+				print("second visit to treasure room");
 			}
 		          
 			maze.currentRoom.setDoorToTake(0);
@@ -71,8 +80,11 @@ public class SystematicStrategy extends Strategy {
 			// START ROOM REVISITED only way out is zero
 			maze.currentRoom = maze.getRoomByItem(objectDetail);
 			maze.currentRoom.setDoorToTake(0);
-			maze.currentItemToDrop = 0;
+			
+			// shud pic the object
+			maze.currentItemToDrop = -1;
 			maze.previousRoom.setRoomLink(maze.previousRoom.getDoorTaken(), maze.currentRoom);
+			print("Revisiting the start room..");
 		} else {
 
 			// Any other room revisited.
