@@ -53,7 +53,7 @@ public class Path {
 	 * 
 	 * @param startRoom
 	 * @param targetRoom must be different than startRoom
-	 * @return Vector of edges
+	 * @return Vector of edges in order, or null if no path
 	 */
 	public Vector<Edge> getShortestPath( int startRoom, int targetRoom ) {
 		boolean found = false;
@@ -61,11 +61,12 @@ public class Path {
 		HashMap<Integer, Edge> parentPath = new HashMap<Integer, Edge>();
 		//a list of vectors of edges l->v->e
 		ArrayList<Vector<Edge>> queueOfVectorsOfEdges = new ArrayList<Vector<Edge>>();
-		ArrayList<Edge> edgesToVisit = new ArrayList<Edge>();
+		//ArrayList<Edge> edgesToVisit = new ArrayList<Edge>();
 		HashSet<Integer> visitedRooms = new HashSet<Integer>();
 		//add the vectors of edges to the list of vectors of edges
 		queueOfVectorsOfEdges.add(startPaths.get(startRoom));
 		parentPath.put(startRoom, null);
+		int thisRoom = -1;
 		//cycle through the list to look at each vector of edges
 		while( !queueOfVectorsOfEdges.isEmpty()) {
 			//get the vector of edges coming from one room
@@ -73,18 +74,23 @@ public class Path {
 			queueOfVectorsOfEdges.remove(0);
 			//cycle through the vector of edges
 			int vsize = v.size();
+			//if (vsize>0) thisRoom = v.get(0).StartRoom; else thisRoom = -1; 
 			for (int i=0; i<vsize; i++) {
 				//look at an edge
 				Edge e = v.get(i);
+				thisRoom = e.StartRoom;
 				if ( ! visitedRooms.contains(e.StartRoom)) {
-					queueOfVectorsOfEdges.add(startPaths.get(e.DestinationRoom));
-					edgesToVisit.add(e);
-					parentPath.put(e.DestinationRoom, e);
+					if ( ! visitedRooms.contains(e.DestinationRoom) && !parentPath.containsKey(e.DestinationRoom)) 
+						queueOfVectorsOfEdges.add(startPaths.get(e.DestinationRoom));
+					//edgesToVisit.add(e);
+					if ( !parentPath.containsKey(e.DestinationRoom))
+						parentPath.put(e.DestinationRoom, e);
 					if ( e.DestinationRoom == targetRoom ) {
 						return constructShortestPath( parentPath, e.DestinationRoom );
 					}
 				}
 			}
+			visitedRooms.add(thisRoom);
 		}
 		return null;
 	}
@@ -98,10 +104,15 @@ public class Path {
 			int destinationRoom) {
 		// TODO Auto-generated method stub
 		Vector<Edge> path = new Vector<Edge>();
+//		Edge currentEdge = null;
+		int parentRoom;
 		Edge parentEdge = parentPath.get(destinationRoom);
 		while ( parentEdge != null ) {
-			path.add( parentPath.get( destinationRoom ));
-			parentEdge = parentPath.get( destinationRoom );
+			path.add(parentEdge);
+			parentRoom = parentEdge.StartRoom;
+//			currentEdge = parentPath.get( parentEdge.StartRoom );
+//			path.add( parentPath.get( destinationRoom ));
+			parentEdge = parentPath.get( parentRoom );
 		}
 		return( flipPath(path) );
 	}
@@ -114,7 +125,7 @@ public class Path {
 	private Vector<Edge> flipPath(Vector<Edge> path) {
 		// TODO Auto-generated method stub
 		Vector<Edge> flippedPath = null;
-		for (int i=path.size(); i>=0; i--) {
+		for (int i = path.size()-1; i>=0; i--) {
 			flippedPath.add(path.get(i));
 		}
 		return flippedPath;
