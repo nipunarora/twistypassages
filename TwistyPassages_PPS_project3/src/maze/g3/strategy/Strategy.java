@@ -30,6 +30,7 @@ public abstract class Strategy {
 	
 	public void setItem(Room r){
 		if(bag.isNotEmpty()){
+			System.out.println("Item being set is: "+ bag.getItem().getLabel());
 			r.setItem(bag.getItem());
 		}
 		else{
