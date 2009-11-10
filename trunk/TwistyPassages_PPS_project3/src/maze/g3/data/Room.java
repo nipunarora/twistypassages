@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import sun.awt.geom.AreaOp.IntOp;
+
 
 import maze.g3.G3IndianaHosed;
 import maze.g3.Logger;
@@ -22,8 +24,6 @@ public class Room {
 	private int item=0;
 	//Counter for the number of knownEdges 
 	public int knownEdgesCount;
-	//Counter for knownRoom Connects
-	public Vector knownRoomConnects;
 
 	// The key is the door number, value is the Room reached by this door.
 	public Map<Integer, Room> doorToRoomMap = new HashMap<Integer, Room>();
@@ -37,6 +37,18 @@ public class Room {
 	// This is the door that the previous move has taken.-- Nipun : why is this a part of Room??
 	private int doorTaken = -1;
 
+	// number of visits
+	private int numVisit = 0;
+	
+	// Max of inward room knowledge will be 10
+	private int inward_room_knowledge = 0;
+	
+	// Max of outward room knowledge will be 10
+	private int outward_room_knowledge = 0;
+	
+	// Max of total room knowledge will be 20
+	private int total_room_knowledge = 0;
+	
 	public Room(int roomId) {
 		this.roomId = roomId;
 	}
@@ -52,6 +64,62 @@ public class Room {
 		}
 		doorToRoomMap.put(doorNum, room);
 	}
+	
+	public void calculateKnowledge() {
+		outward_room_knowledge = doorToRoomMap.size();
+		total_room_knowledge = outward_room_knowledge + inward_room_knowledge;
+
+		log.debug("Room " + roomId + ", outward_room_knowledge= "
+				+ outward_room_knowledge + " inward_room_knowledge= "
+				+ inward_room_knowledge);
+	}
+	
+	public boolean hasFullKnowledge()
+	{
+		return total_room_knowledge == 20;
+	}
+	
+	public boolean hasFullInwardKnowledge()
+	{
+		return inward_room_knowledge == 10;
+	}
+	
+	public boolean hasOutwardKnowledge()
+	{
+		return outward_room_knowledge==10;
+	}
+	
+	public boolean isKnowledgeGreaterOrEqualTo(int percent)
+	{
+		return total_room_knowledge >= percent;
+	}
+
+	public int getInwardRoomKnowledge()
+	{
+		return inward_room_knowledge;
+	}
+	
+	public int getOutwardRoomKnowledge()
+	{
+		return outward_room_knowledge;
+	}
+	
+	public int getTotalRoomKnowledge()
+	{
+		return total_room_knowledge;
+	}
+	
+	public void visit()
+	{
+		numVisit++;
+	}
+	
+	
+	public int getNumVisits()
+	{
+		return numVisit;
+	}
+	
 
 	public boolean isStartRoom() {
 		return roomType == RoomType.START;
@@ -155,5 +223,10 @@ public class Room {
 	 */
 	public int outgoingEdgesCount(){
 		return G3IndianaHosed.path.startPaths.get(this.roomId).size();
+	}
+
+	public void setInwardRoomKnowledge(int count) {
+
+		inward_room_knowledge = count; 
 	}
 }
