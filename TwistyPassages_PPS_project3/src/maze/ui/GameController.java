@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 public class GameController {
 
     private int count;
-    private RoomDisplayWindow roomDisplayWindow = new RoomDisplayWindow();
 
     public GameController() {
         count = 0;
@@ -90,8 +89,6 @@ public class GameController {
         gameconfig.current_room = gameconfig.passageQuery(old_room, currentMove.direction);
         // If current_room = -1 means the above move was illegal
         if(gameconfig.current_room==-1){System.out.println("Illegal Move"); return -1;}
-        
-        roomDisplayWindow.displayRoom(gameconfig.PassageList, gameconfig.current_room, old_room, currentMove);
 
         // Use NewRoom for scoring (later)
         Boolean NewRoom = gameconfig.addVisitedRoom(gameconfig.current_room);
