@@ -3,7 +3,7 @@ package maze.g3.data;
 import java.util.HashMap;
 import java.util.Map;
 
-import maze.g3.G3Player;
+import maze.g3.G3IndianaHosed;
 import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
 import maze.g3.data.Room.RoomType;
@@ -151,7 +151,7 @@ public class Maze {
 		for(int i=1; i<=9;i++){
 			room.doorRoomKey[i]=1;
 			room.knownEdgesCount++;
-			G3Player.path.addPath(1, i, 1);
+			G3IndianaHosed.path.addPath(1, i, 1);
 		}
 		addNewRoom(roomCount,room);
 		

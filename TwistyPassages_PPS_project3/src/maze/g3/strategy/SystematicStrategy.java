@@ -5,7 +5,7 @@ package maze.g3.strategy;
 
 import java.util.Random;
 
-import maze.g3.G3Player;
+import maze.g3.G3IndianaHosed;
 import maze.g3.data.BagOfHolding;
 import maze.g3.data.Maze;
 import maze.g3.data.Room.RoomType;
