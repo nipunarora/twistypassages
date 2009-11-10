@@ -59,7 +59,7 @@ public class SystematicStrategy extends Strategy {
 				+ maze.currentRoom.getDoorTaken() + " item dropped "
 				+ maze.currentItemToDrop);
 
-		if (maze.itemsDroppedCount > G3Player.number_of_objects) {
+		if (maze.getBag().isEmpty()) {
 			System.out.println("items over making random move..");
 			maze.currentRoom.setDoorToTake(new Random().nextInt(9));
 		}
