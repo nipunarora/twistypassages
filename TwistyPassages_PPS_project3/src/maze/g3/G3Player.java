@@ -31,7 +31,7 @@ public class G3Player implements Player {
 	public static int StagCounter=0;
 	public static Path path= new Path();
 	public static History history= new History();
-	
+	public static int number_of_objects;
 	//only rooms in the elimination list
 	public  static HashMap<Integer,Integer> eliminationList= new HashMap<Integer,Integer>();
 	public static Random rand = new Random();
@@ -61,6 +61,9 @@ public class G3Player implements Player {
 		int door= strat.actionDoor;
 		
 		
+		
+		
+		
 		//populating item map list
 		if(strat.actionItem>0){
 			itemMapList.put(strat.actionItem, maze.previousRoom.getId());
@@ -69,10 +72,6 @@ public class G3Player implements Player {
 			itemMapList.remove(maze.previousRoom.getItem());
 		}
 		
-		
-	
-		path.addPath(maze.previousRoom.getId(), door, maze.currentRoom.getId());
-		history.addPath(maze.previousRoom.getId(), door, maze.currentRoom.getId());
 		
 		System.out.println("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
 		return action;
