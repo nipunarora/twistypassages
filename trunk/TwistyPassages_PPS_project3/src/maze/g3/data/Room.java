@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 
 
-import maze.g3.G3Player;
+import maze.g3.G3IndianaHosed;
 import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
 
@@ -146,7 +146,7 @@ public class Room {
 	 * @return
 	 */
 	public int incomingEdgesCount(){
-		return G3Player.path.destinationPaths.get(this.roomId).size();
+		return G3IndianaHosed.path.destinationPaths.get(this.roomId).size();
 	}
 	
 	/**
@@ -154,6 +154,6 @@ public class Room {
 	 * @return
 	 */
 	public int outgoingEdgesCount(){
-		return G3Player.path.startPaths.get(this.roomId).size();
+		return G3IndianaHosed.path.startPaths.get(this.roomId).size();
 	}
 }
