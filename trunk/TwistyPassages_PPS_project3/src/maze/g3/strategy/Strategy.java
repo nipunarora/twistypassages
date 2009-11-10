@@ -6,7 +6,6 @@ import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
 import maze.g3.data.BagOfHolding;
 import maze.g3.data.Maze;
-import maze.g3.data.Item;
 import maze.g3.data.Room;
 import maze.ui.Move;
 
@@ -30,11 +29,11 @@ public abstract class Strategy {
 	
 	public void setItem(Room r){
 		if(bag.isNotEmpty()){
-			System.out.println("Item being set is: "+ bag.getItem().getLabel());
+			System.out.println("Item being set is: "+ bag.getItem());
 			r.setItem(bag.getItem());
 		}
 		else{
-			r.setItem(new Item(0));
+			r.setItem(0);
 		}
 	}
 }

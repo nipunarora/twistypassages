@@ -7,7 +7,7 @@ import java.util.Vector;
 public class History {
 	 
 	Vector<Edge> historyPath= new Vector<Edge>();
-	Vector<Item> itemHistory = new Vector<Item>();
+	Vector<Integer> itemHistory = new Vector<Integer>();
 	
 	/**
 	 * Adds an edge to the starting path
@@ -23,7 +23,7 @@ public class History {
 	 * Add item to the item History
 	 * @param i
 	 */
-	void addItem(Item i){
+	void addItem(Integer i){
 		itemHistory.add(i);
 	}
 	/**

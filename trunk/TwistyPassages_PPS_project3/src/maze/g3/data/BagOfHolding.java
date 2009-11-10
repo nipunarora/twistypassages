@@ -1,6 +1,8 @@
 package maze.g3.data;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 
 import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
@@ -8,69 +10,64 @@ import maze.g3.Logger.LogLevel;
 /**
  * 
  * @author colin
- *
+ * 
  */
 
 public class BagOfHolding {
-	
+
 	private Logger log = new Logger(LogLevel.DEBUG, this.getClass());
-	private ArrayList<Item> bag;
 	public int lastItemLabel;
-	//public boolean didPutItem;
-	
-	public BagOfHolding (  ) {
-		bag = new ArrayList<Item> ();
+	// public boolean didPutItem;
+
+	private Deque<Integer> bag = new LinkedList<Integer>();
+
+	public void printBag() {
+		System.out.println("size of bag: " + bag.size());
+		while (!bag.isEmpty())
+			System.out.print(bag.getFirst());
 	}
 
-	public void printBag(){
-		System.out.println("size of bag: "+ bag.size());
-		for(int i=0;i<bag.size();i++)
-			System.out.print(bag.get(i).getLabel());
-	}
-	public void fill( int totalNumberOfItems ) {
-		for (int i=2; i<=totalNumberOfItems; i++) {
-			bag.add( new Item( i ));
+	public void fill(int totalNumberOfItems) {
+		for (int i = 2; i <= totalNumberOfItems; i++) {
+			bag.addLast(i);
 		}
-		log.debug("after fill bag size:"+bag.size());
+		log.debug("after fill bag size:" + bag.size());
 	}
-	
-	
+
 	public void dropItemIfAvailable() {
-		if( this.isNotEmpty() ) {
-			this.lastItemLabel = this.useItem().getLabel();
-			log.debug("lastitem:"+this.lastItemLabel);
+		if (isNotEmpty()) {
+			lastItemLabel = this.useItem();
+			log.debug("lastitem:" + this.lastItemLabel);
 		}
 	}
+
 	/**
-	 * Pops Item and returns the topmost item
-	 * returns null if empty
+	 * Pops Item and returns the topmost item returns null if empty
+	 * 
 	 * @return
 	 */
-	public Item getItem(){
-		if(this.isNotEmpty()){
-			return this.useItem();
+	public int getItem() {
+		if (bag.isEmpty()) {
+			return 0;
 		}
-		else{
-			return null;
-		}
+		return bag.removeFirst();
 	}
-	
-	public Item useItem () {
-		Item item = bag.get( 0 );
-		bag.remove( 0 );
-		return item;
+
+	public int useItem() {
+		return getItem();
 	}
+
 	/**
 	 * adds item to the bag
+	 * 
 	 * @param item
 	 */
-	public void returnItem ( int i ) {
-		Item item= new Item(i);
-		bag.add( item );
+	public void returnItem(int i) {
+		bag.addFirst(i);
 	}
-	
+
 	public boolean isNotEmpty() {
 		return !bag.isEmpty();
 	}
-	
+
 }

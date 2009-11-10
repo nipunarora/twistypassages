@@ -11,7 +11,7 @@ import maze.g3.Logger.LogLevel;
 public class Room {
 	private Logger log = new Logger(LogLevel.DEBUG, this.getClass());
 	public enum RoomType {
-		START, TREASURE, OTHER
+		START, TREASURE, OTHER, ENTRANCE_TO_TREASURE, ENTRANCE_TO_START
 	}
 
 	private int roomId;
@@ -71,10 +71,6 @@ public class Room {
 		this.item = object;
 	}
 	
-	public void setItem(Item item){
-		this.item= item.getLabel();
-	}
-
 	public int getId() {
 		return roomId;
 	}
@@ -123,7 +119,7 @@ public class Room {
 		}
 	}
 	
-	public void setStartRoomLinksToSelf() {
+	public void setRoomLinksToSelfExcept0() {
 		// START Room; except for 0 door all are self links
 		for(int i = 1; i < 10 ; i++)
 		{

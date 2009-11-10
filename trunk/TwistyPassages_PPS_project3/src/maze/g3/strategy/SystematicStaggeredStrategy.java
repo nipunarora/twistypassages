@@ -2,7 +2,6 @@ package maze.g3.strategy;
 
 import maze.g3.G3Player;
 import maze.g3.data.BagOfHolding;
-import maze.g3.data.Item;
 import maze.g3.data.Maze;
 import maze.g3.data.Room;
 import maze.g3.data.Room.RoomType;

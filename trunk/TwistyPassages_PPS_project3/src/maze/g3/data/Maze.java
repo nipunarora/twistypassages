@@ -82,23 +82,34 @@ public class Maze {
 		return 0;
 	}
 
+	public Room getStartRoom()
+	{
+		return getRoomByType(RoomType.START);
+	}
+	
 	public Room getTreasureRoom() {
-		// TODO Auto-generated method stub
-		return getRoomByItem(1);
+		return getRoomByType(RoomType.TREASURE);
+	}
+	
+	public Room getRoomByType(Room.RoomType type)
+	{
+		for(Room m : map.values())
+		{
+			if(m.getRoomType() == type)
+				return m;
+		}
+		return null;
 	}
 	
 	
 	public Room createTreasureRoom() {
-		// TODO we can save rounds in filling the information about the treasure
-		// room doors
-		// if we are successful in finding atleast one door that does not lead
-		// to self.
+		// TODO all are self loops except 0
 		Room room = new Room(roomCount);
 		room.setRoomType(RoomType.TREASURE);
 		addNewRoom(roomCount, room);
-
-		// Treasure room always has item 1
-		room.setItem(1);
+		room.setRoomLinksToSelfExcept0();
+		// dont set the item as we are going to pick it up
+		//room.setItem(1);
 		roomCount++;
 		return room;
 	}
@@ -109,7 +120,7 @@ public class Maze {
 		currentItemToDrop = itemsDroppedCount;
 		room.setItem(currentItemToDrop);
 		roomCount++;
-		
+		itemsDroppedCount++;
 		return room;
 	}
 	
