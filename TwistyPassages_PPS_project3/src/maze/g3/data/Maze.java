@@ -163,4 +163,24 @@ public class Maze {
 	public BagOfHolding getBag() {
 		return bag;
 	}
+	
+	
+	public void inwardRoomKnowledge(Room forRoom)
+	{
+		int count =0;
+		for(Room r: map.values())
+		{
+			if(r.equals(forRoom))
+			{
+				continue;
+			}
+			for(Room cr: r.getNeighborMap().values())
+			{
+				if(cr.equals(forRoom)){
+					count++;
+				}
+			}
+		}
+		forRoom.setInwardRoomKnowledge(count);
+	}
 }

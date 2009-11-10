@@ -62,6 +62,7 @@ public class BagOfHolding {
 	 * @param item
 	 */
 	public void returnItem(int i) {
+		log.debug("adding item to the bag "+ i);
 		bag.addFirst(i);
 	}
 
