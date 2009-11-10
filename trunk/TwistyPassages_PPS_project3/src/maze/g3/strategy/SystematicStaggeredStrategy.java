@@ -205,9 +205,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 			actionItem=0;
 			return new Move(actionDoor,actionItem);
 		}
-		if(!maze.isFirstRoom){
-			G3Player.path.addPath(maze.previousRoom.getId(), actionDoor,maze.currentRoom.getId());
-		}
+		
 	}
 	
 	

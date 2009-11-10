@@ -31,7 +31,6 @@ public class G3Player implements Player {
 	public static int StagCounter=0;
 	public static Path path= new Path();
 	public static History history= new History();
-	public static int number_of_objects;
 	//only rooms in the elimination list
 	public  static HashMap<Integer,Integer> eliminationList= new HashMap<Integer,Integer>();
 	public static Random rand = new Random();
