@@ -24,7 +24,7 @@ public class RoomDisplayWindow  {
 	{
 		if(isFirst)
 		{
-			//f.setVisible(true);
+			f.setVisible(true);
 			isFirst = false;
 		}
 		f.add(new RoomDisplayPanel(plist, currentRoom, oldRoom, oldMove));
