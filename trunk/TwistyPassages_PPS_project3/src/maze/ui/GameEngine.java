@@ -631,7 +631,7 @@ public class GameEngine extends javax.swing.JFrame {
     	int i = 0;
     	for(i = 0; i<PlayerList3.getModel().getSize();i++)
     	{
-    		if(PlayerList3.getModel().getElementAt(i).equals("maze.g3.G3Player"))
+    		if(PlayerList3.getModel().getElementAt(i).equals("maze.g2.SmartPlayer2"))
     			break;
     	}
     	PlayerList3.setSelectedIndex(i);
