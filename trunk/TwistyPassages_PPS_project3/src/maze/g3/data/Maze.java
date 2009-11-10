@@ -14,14 +14,19 @@ public class Maze {
 	HashMap<Integer, Room> map = new HashMap<Integer, Room>();
 	
 	// we start from 2, as the treasure room already has item 1
-	public int itemsDroppedCount = 2;
 	public int currentItemToDrop;
 	public boolean isFirstRoom = true;
 	public int roomCount = 1;
 	public Room previousRoom;
 	public Room currentRoom;
+	BagOfHolding bag = new BagOfHolding();
 	
 	public  Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
+	
+	public Maze(int number_of_objects)
+	{
+		bag.fill(number_of_objects);
+	}
 
 	public int getNewRoomId() {
 		return map.size() + 1;
@@ -117,10 +122,9 @@ public class Maze {
 	public Room createNewRoomAndDropItem() {
 		Room room = new Room(roomCount);
 		addNewRoom(roomCount, room);
-		currentItemToDrop = itemsDroppedCount;
+		currentItemToDrop = bag.getItem();
 		room.setItem(currentItemToDrop);
 		roomCount++;
-		itemsDroppedCount++;
 		return room;
 	}
 	
@@ -153,5 +157,9 @@ public class Maze {
 		addNewRoom(roomCount,r);
 		previousRoom=room;
 		currentRoom=r;
+	}
+
+	public BagOfHolding getBag() {
+		return bag;
 	}
 }

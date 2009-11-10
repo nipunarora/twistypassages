@@ -27,7 +27,7 @@ import maze.ui.Player;
  * @author Colin
  */
 public class G3Player implements Player {
-	private Maze maze = new Maze();
+	private Maze maze;
 	public static int StagCounter=0;
 	public static Path path= new Path();
 	public static History history= new History();
@@ -35,7 +35,6 @@ public class G3Player implements Player {
 	//only rooms in the elimination list
 	public  static HashMap<Integer,Integer> eliminationList= new HashMap<Integer,Integer>();
 	public static Random rand = new Random();
-	private BagOfHolding bag = new BagOfHolding();
 	//current Item to Room mapping
 	public static HashMap<Integer,Integer> itemMapList= new HashMap<Integer,Integer>();
 	/**boolean flags**/
@@ -44,20 +43,19 @@ public class G3Player implements Player {
 	
 	boolean first =true;
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
-		this.number_of_objects = number_of_objects;
-		
-		if(true)
-		{
-			return new SystematicStrategy(maze, bag).move(object_detail, number_of_objects, number_of_turns);
-		}
-		
 		if(first){
-			bag.fill(number_of_objects);
+			maze = new Maze(number_of_objects);
 			first =false;
 		}
 		
+//		if(true)
+//		{
+//			return new SystematicStrategy(maze, maze.getBag()).move(object_detail, number_of_objects, number_of_turns);
+//		}
+		
+		
 		Strategy strat;
-		strat = new SystematicStaggeredStrategy(maze,bag);
+		strat = new SystematicStaggeredStrategy(maze,maze.getBag());
 		int startingRoom= 	maze.roomCount;
 		Move action =strat.move(object_detail, number_of_objects, number_of_turns); 
 		int door= strat.actionDoor;

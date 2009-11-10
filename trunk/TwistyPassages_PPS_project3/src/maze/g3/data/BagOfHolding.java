@@ -1,6 +1,5 @@
 package maze.g3.data;
 
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -69,5 +68,11 @@ public class BagOfHolding {
 	public boolean isNotEmpty() {
 		return !bag.isEmpty();
 	}
+	
+	public boolean isEmpty()
+	{
+		return bag.isEmpty();
+	}
+	
 
 }
