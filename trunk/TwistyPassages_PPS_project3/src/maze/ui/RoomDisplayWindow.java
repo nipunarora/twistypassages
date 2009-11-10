@@ -17,14 +17,14 @@ public class RoomDisplayWindow  {
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.pack();
 		f.setLocation(100, 100);
-		
-	}
+		//f.setVisible(false);
+		}
 	
 	public void displayRoom(java.util.List<RoomRoomLink> plist, int currentRoom, int oldRoom, Move oldMove)
 	{
 		if(isFirst)
 		{
-			f.setVisible(true);
+			//f.setVisible(true);
 			isFirst = false;
 		}
 		f.add(new RoomDisplayPanel(plist, currentRoom, oldRoom, oldMove));
