@@ -152,11 +152,8 @@ public class Maze {
 		addNewRoom(roomCount,room);
 		
 		//First ROOM population
-		roomCount=2;
-		Room r= new Room(roomCount);
-		addNewRoom(roomCount,r);
 		previousRoom=room;
-		currentRoom=r;
+		currentRoom=room;
 	}
 
 	public BagOfHolding getBag() {
