@@ -36,6 +36,9 @@ public class History {
 	}
 	
 	/**
+	 * 
+	 */
+	/**
 	 * get the id of the last Room encountered from the history
 	 * @return
 	 */
@@ -49,4 +52,9 @@ public class History {
 		return lastDoor;
 	}
 	
+	void findRoomViaFamiliarPath() {
+		for (int i=0; i<historyPath.size(); i++) {
+			
+		}
+	}
 }
