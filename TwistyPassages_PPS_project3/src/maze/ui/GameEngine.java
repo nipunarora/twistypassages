@@ -631,11 +631,11 @@ public class GameEngine extends javax.swing.JFrame {
     	int i = 0;
     	for(i = 0; i<PlayerList3.getModel().getSize();i++)
     	{
-    		if(PlayerList3.getModel().getElementAt(i).equals("maze.g2.SmartPlayer2"))
+    		if(PlayerList3.getModel().getElementAt(i).equals("maze.g3.G3IndianaHosed"))
     			break;
     	}
     	PlayerList3.setSelectedIndex(i);
-    	MazeList3.setSelectedIndex(0);
+    	MazeList3.setSelectedIndex(9);
     	NewGameButtonActionPerformed(null);
     	
     }
