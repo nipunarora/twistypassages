@@ -16,7 +16,8 @@ public class SystematicStaggeredStrategy extends Strategy {
 
 	
 	public Move move(int objectDetail, int numberOfObjects, int numberOfTurns) {
-		// TODO Auto-generated method stub
+		
+		
 		try{
 		Move action;
 		/**
@@ -34,32 +35,33 @@ public class SystematicStaggeredStrategy extends Strategy {
 			maze.initializeMaze();
 			actionDoor=0;
 			//populate the known paths
-			G3Player.path.addPath(1, 0, 2);
 			G3Player.StagCounter=0;
 			setItem(maze.previousRoom);
+			maze.previousDoor=0;
 			actionItem= maze.previousRoom.getItem();
 			return new Move(actionDoor, actionItem);
 		}
 		
 		//When the room does not have an object and bag has items left
 		if(objectDetail==0&&bag.isNotEmpty()){
-			System.out.println("No object items left");
+			System.out.println(" items are left");
 		    //Unexplored room & staggered Counter==0, when stagCounter =0 we leave an object in the room
 			if(G3Player.StagCounter==0){
 				System.out.println("Unexplored room");
 				Room r= maze.createNewRoom();
+				setItem(r);
 				G3Player.StagCounter++;
 				actionDoor=G3Player.rand.nextInt(10);
-				maze.currentRoom.doorRoomKey[actionDoor]=r.getId();
-				maze.currentRoom.knownEdgesCount++;
-				setItem(maze.currentRoom);
-				actionItem= maze.currentRoom.getItem();
+				maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
+				actionItem= r.getItem();
+				
+				//advancing previous entities
+				maze.previousDoor=actionDoor;
+				maze.previousRoom=r;
 				
 				//Add room to elimination List
-				G3Player.eliminationList.put(actionItem, maze.currentRoom.getId());
-				maze.currentRoom= r;
-				
-				action= new Move(1,actionItem);
+				G3Player.eliminationList.put(actionItem, maze.previousRoom.getId());
+				action= new Move(actionDoor,actionItem);
 				return action;
 			}
 			
@@ -68,13 +70,17 @@ public class SystematicStaggeredStrategy extends Strategy {
 				System.out.println("Unexplored neighbor of elimination room");
 				Room r= maze.createNewRoom();
 				G3Player.StagCounter++;
+				setItem(r);
 				actionDoor=G3Player.rand.nextInt(10);
-				maze.currentRoom.doorRoomKey[actionDoor]=r.getId();
-				maze.currentRoom.knownEdgesCount++;
-				setItem(maze.currentRoom);
-				actionItem= maze.currentRoom.getItem();
-				maze.currentRoom=r;
-				return new Move(actionDoor,actionItem);
+				maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
+				actionItem= r.getItem();
+				
+				//advancing
+				maze.previousDoor=actionDoor;
+				maze.previousRoom=r;
+				
+				action= new Move(actionDoor,actionItem);
+				return action;
 			}
 			
 			if(G3Player.StagCounter>1){
@@ -82,10 +88,15 @@ public class SystematicStaggeredStrategy extends Strategy {
 				Room r = maze.createNewRoom();
 				G3Player.StagCounter++;
 				actionDoor=G3Player.rand.nextInt(10);
-				maze.currentRoom.doorRoomKey[actionDoor]=r.getId();
-				maze.currentRoom.knownEdgesCount++;
+				maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
+				actionItem= 0;
 				
-				maze.currentRoom=r;
+				//advancing
+				maze.previousDoor=actionDoor;
+				maze.previousRoom=r;
+				
+				action = new Move(actionDoor,actionItem);
+				return action;
 			}
 		}
 		
@@ -96,20 +107,22 @@ public class SystematicStaggeredStrategy extends Strategy {
 			G3Player.StagCounter=0;
 			System.out.println("TreasureRoom");
 			G3Player.treasureRoomFlag=true;
-			int lastRoom=G3Player.history.getLastRoom();	
-			int lastDoor=G3Player.history.getLastDoor();
-			maze.getRoom(lastRoom).doorRoomKey[lastDoor]=maze.currentRoom.getId();
+			actionDoor=0;
+			actionItem=-1;
+			bag.returnItem(objectDetail);
+			
+			Room r= maze.createNewRoom();
+			maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 			
 			for(int i=1; i<=9;i++){
-				maze.currentRoom.doorRoomKey[i]=maze.currentRoom.getId();
+				r.doorRoomKey[i]=r.getId();
+				G3Player.path.addPath(r.getId(), i, r.getId());
 			}
-			maze.currentRoom= maze.previousRoom;
 			
+			maze.previousDoor=0;
+			maze.previousRoom=r;
 			
 			//return the action
-			actionItem=-1;
-			actionDoor=0;
-			bag.returnItem(objectDetail);
 			action = new Move(actionDoor,actionItem);
 			return action;
 		}
@@ -117,12 +130,12 @@ public class SystematicStaggeredStrategy extends Strategy {
 		 * We have already dropped an item in this room
 		 */
 		if(objectDetail>0){
-			System.out.println("Already Explored Room");
+			log.debug("Already Explored Room");
 			int roomid=G3Player.itemMapList.get(objectDetail);
 			Room r= maze.getRoom(roomid);
 		
 			//if we do not know all incoming edges and it is in the elimination list
-			if(G3Player.path.destinationPaths.get(roomid).size()<10&&G3Player.eliminationList.containsKey(objectDetail)){
+			if(r.incomingEdgesCount()<10&&G3Player.eliminationList.containsKey(objectDetail)){
 				G3Player.StagCounter=1;
 				for (int i=0;i<=9;i++){
 					if(r.doorRoomKey[i]==0)
@@ -192,6 +205,11 @@ public class SystematicStaggeredStrategy extends Strategy {
 			actionItem=0;
 			return new Move(actionDoor,actionItem);
 		}
+		if(!maze.isFirstRoom){
+			G3Player.path.addPath(maze.previousRoom.getId(), actionDoor,maze.currentRoom.getId());
+		}
 	}
+	
+	
 
 }
