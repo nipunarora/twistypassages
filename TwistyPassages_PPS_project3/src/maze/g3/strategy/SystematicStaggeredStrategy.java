@@ -31,7 +31,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 		 */
 		if (maze.isFirstRoom){
 		
-			System.out.println("Entered first room");
+			log.debug("Entered first room");
 			maze.initializeMaze();
 			actionDoor=0;
 			//populate the known paths
@@ -44,10 +44,10 @@ public class SystematicStaggeredStrategy extends Strategy {
 		
 		//When the room does not have an object and bag has items left
 		if(objectDetail==0&&bag.isNotEmpty()){
-			System.out.println(" items are left");
+			log.debug(" items are left");
 		    //Unexplored room & staggered Counter==0, when stagCounter =0 we leave an object in the room
 			if(G3IndianaHosed.StagCounter==0){
-				System.out.println("Unexplored room");
+				log.debug("Unexplored room");
 				Room r= maze.createNewRoom();
 				setItem(r);
 				G3IndianaHosed.StagCounter++;
@@ -67,7 +67,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 			
 				
 			if(G3IndianaHosed.StagCounter==1){
-				System.out.println("Unexplored neighbor of elimination room");
+				log.debug("Unexplored neighbor of elimination room");
 				Room r= maze.createNewRoom();
 				G3IndianaHosed.StagCounter++;
 				setItem(r);
@@ -84,7 +84,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 			}
 			
 			if(G3IndianaHosed.StagCounter>1){
-				System.out.println("Rest of unexplored rooms");
+				log.debug("Rest of unexplored rooms");
 				Room r = maze.createNewRoom();
 				G3IndianaHosed.StagCounter++;
 				actionDoor=G3IndianaHosed.rand.nextInt(10);
@@ -105,7 +105,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 		 */
 		if(objectDetail==1&&G3IndianaHosed.treasureRoomFlag==false){
 			G3IndianaHosed.StagCounter=0;
-			System.out.println("TreasureRoom");
+			log.debug("TreasureRoom");
 			G3IndianaHosed.treasureRoomFlag=true;
 			actionDoor=0;
 			actionItem=-1;
