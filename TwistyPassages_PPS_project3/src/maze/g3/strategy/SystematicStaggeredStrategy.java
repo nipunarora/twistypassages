@@ -18,6 +18,8 @@ public class SystematicStaggeredStrategy extends Strategy {
 	public Move move(int objectDetail, int numberOfObjects, int numberOfTurns) {
 		log.debug("bag size: " + bag.getSize());
 		
+		
+		
 		try{
 		Move action;
 		/**
@@ -150,6 +152,17 @@ public class SystematicStaggeredStrategy extends Strategy {
 			Room r= maze.getRoom(roomid);
 			maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 			//if we do not know all incoming edges and it is in the elimination list
+			if(roomid==1){
+				actionDoor=0;
+				actionItem=-1;
+				
+				maze.previousRoom=r;
+				maze.previousDoor=0;
+				
+				action= new Move(actionDoor, actionItem);
+				return action;
+			}
+			
 			if(r.incomingEdgesCount()<10&&G3IndianaHosed.eliminationList.containsKey(objectDetail)){
 				log.debug("Elimination List Room but not fully explored");
 				G3IndianaHosed.StagCounter=1;
@@ -172,7 +185,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 			}
 			
 			//if we know all the incoming edges and it is in the elimination list
-			if(r.incomingEdgesCount()>=10&&G3IndianaHosed.eliminationList.containsKey(objectDetail)){
+			if(r.incomingEdgesCount()==10&&G3IndianaHosed.eliminationList.containsKey(objectDetail)){
 				
 				log.debug("Elimination List Room fully explored");
 				G3IndianaHosed.StagCounter=1;
@@ -184,18 +197,25 @@ public class SystematicStaggeredStrategy extends Strategy {
 				int maxsize=0;
 				for(int i=0;i<G3IndianaHosed.path.startPaths.get(roomid).size();i++){
 					int destRoomId=G3IndianaHosed.path.startPaths.get(roomid).get(i).getDestinationRoom();
-					if(maxsize<maze.getRoom(destRoomId).incomingEdgesCount()){
-						maxsize=maze.getRoom(destRoomId).incomingEdgesCount();
+					
+					if(maze.getRoom(destRoomId).incomingEdgesCount()!=10){
+						actionDoor=i;
+					}
+					
+				/*	int count=maze.getRoom(destRoomId).incomingEdgesCount();
+					if(count==10){
+						count=0;
+					}
+					
+					if(maxsize<count){
+						maxsize=count;
 						maxindex=i;
-					}
-					if(maze.getRoom(destRoomId).incomingEdgesCount()==10){
-						maxsize=0;
-					}
+					}*/
+					
 				}
 				
 				int destinationRoom= G3IndianaHosed.path.startPaths.get(roomid).get(maxindex).getDestinationRoom();
-					
-						actionDoor=G3IndianaHosed.path.startPaths.get(roomid).get(maxindex).getDoor();
+
 						G3IndianaHosed.eliminationList.remove(objectDetail);
 						if(maze.getRoom(destinationRoom).incomingEdgesCount()<10){
 						G3IndianaHosed.eliminationList.put(maze.getRoom(destinationRoom).getItem(), destinationRoom);
