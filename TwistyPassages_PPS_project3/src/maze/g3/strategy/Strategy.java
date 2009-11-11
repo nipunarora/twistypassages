@@ -29,8 +29,9 @@ public abstract class Strategy {
 	
 	public void setItem(Room r){
 		if(bag.isNotEmpty()){
-			log.debug("Item being set is: "+ bag.getItem());
+			//log.debug("Item being set is: "+ bag.getItem());
 			r.setItem(bag.getItem());
+			log.debug("Item being set is: "+ r.getItem());
 		}
 		else{
 			r.setItem(0);

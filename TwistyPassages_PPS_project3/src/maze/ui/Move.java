@@ -25,4 +25,17 @@ package maze.ui;
         direction = MYdirection;
         object_decision = MYobject_decision;
     }
+    /**
+     * returns the item set
+     */
+    public int getItem(){
+    	return object_decision;
+    }
+    /**
+     * returns the direction set
+     * @return
+     */
+    public int getDoor(){
+    	return direction;
+    }
 }

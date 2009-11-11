@@ -7,11 +7,7 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * 
- * This class is not yet complete only there as a placeholder
- * Mantains a HashMap of all paths that have been traversed
- * Calculates shortest path between different nodes
- * We assume there can't be more than 1000 rooms
+ * This class keeps the paths we have travelled similar to an adjacency matrix 
  */
 public class Path {
 	
@@ -36,7 +32,6 @@ public class Path {
 		Edge e= new Edge(startRoom,door,destinationRoom);
 		Boolean flag=false;
 		if(startPaths.containsKey(startRoom)){
-			//Nipun: need to put checks if edge already exists in the vector? 
 			for(int i=0;i<startPaths.get(startRoom).size();i++){
 				if(e.equals(startPaths.get(i))){
 					flag=true;
@@ -52,7 +47,6 @@ public class Path {
 			startPaths.put(startRoom, v);
 		}
 		if(destinationPaths.containsKey(startRoom)){
-			//Nipun: need to put checks if edge already exists in the vector? 
 			for(int i=0;i<startPaths.get(startRoom).size();i++){
 				if(e.equals(startPaths.get(i))){
 					flag=true;
