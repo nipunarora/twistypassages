@@ -21,6 +21,11 @@ public class Path {
 	public HashMap<Integer,Vector<Edge>> startPaths= new HashMap<Integer,Vector<Edge>>();
 	public HashMap<Integer,Vector<Edge>> destinationPaths= new HashMap<Integer,Vector<Edge>>();
 	
+	public static enum PathsToCheck { START, DESTINATION, BOTH };
+	
+	//an ugly, ugly private global variable
+	int roomThatWasMatched;
+	
 	/**
 	 * adds Edge information to a Path HashMap
 	 * @param startRoom
@@ -145,4 +150,48 @@ public class Path {
 		}
 		return flippedPath;
 	}
+	
+	/**
+	 * Merge two rooms by comparing startpaths and endpaths, within a tolerance threshold
+	 * 
+	 */
+	public boolean hasMatchingRoom( int room, PathsToCheck pathsFlag, int numMatchesNeeded ) {
+		Vector<Edge> roomStartPaths = startPaths.get(room);
+		Vector<Edge> roomDestPaths = destinationPaths.get(room);
+		
+		boolean foundStartMatch = false;
+		int numStartMatches = 0;
+		int numDestMatches = 0;
+		
+		if( pathsFlag != PathsToCheck.DESTINATION ) {
+			numStartMatches = getEdgeMatches( roomStartPaths, startPaths );
+		}
+		if( pathsFlag != PathsToCheck.START ) {
+			numDestMatches = getEdgeMatches(roomDestPaths, destinationPaths);
+		}
+		if( pathsFlag == PathsToCheck.START ) return numStartMatches >= numMatchesNeeded;
+		else if( pathsFlag == PathsToCheck.DESTINATION ) return numDestMatches >= numMatchesNeeded;
+		else return numStartMatches >= numMatchesNeeded && numDestMatches >= numMatchesNeeded;
+	}
+
+	private int getEdgeMatches(Vector<Edge> roomStartPaths,
+			HashMap<Integer, Vector<Edge>> startPaths2) {
+		int numMatches=0;
+		if( roomStartPaths.size() > 0 ) {
+			for (Map.Entry<Integer, Vector<Edge>> entrySet : startPaths2.entrySet()) {
+				Vector<Edge> queriedPaths = entrySet.getValue();
+				int queriedRoom = entrySet.getKey();
+				for( int i=0; i<queriedPaths.size(); i++ ) {
+					for( int j=0; j<roomStartPaths.size(); j++ ) {
+						if( queriedPaths.get(i).getDestinationRoom() == roomStartPaths.get(j).getDestinationRoom() 
+								&& queriedPaths.get(i).getDoor() == roomStartPaths.get(j).getDoor()) {
+							numMatches++;
+						}
+					}
+				}
+			}
+		}
+		return numMatches;
+	}
+	
 }
