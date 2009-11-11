@@ -21,7 +21,7 @@ public class BagOfHolding {
 	private Deque<Integer> bag = new LinkedList<Integer>();
 
 	public void printBag() {
-		System.out.println("size of bag: " + bag.size());
+		log.debug("size of bag: " + bag.size());
 		while (!bag.isEmpty())
 			System.out.print(bag.getFirst());
 	}

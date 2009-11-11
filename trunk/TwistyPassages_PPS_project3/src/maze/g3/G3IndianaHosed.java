@@ -8,6 +8,7 @@ package maze.g3;
 import java.util.HashMap;
 import java.util.Random;
 
+import maze.g3.data.BagOfHolding;
 import maze.g3.data.History;
 import maze.g3.data.Path;
 
@@ -26,8 +27,8 @@ import maze.ui.Player;
  * @author Colin
  */
 public class G3IndianaHosed implements Player {
-	
 	private Maze maze;
+	private Logger log;
 	public static int StagCounter=0;
 	public static Path path= new Path();
 	public static History history= new History();
@@ -47,16 +48,19 @@ public class G3IndianaHosed implements Player {
 			first =false;
 		}
 		
-		if(true)
-		{
-			return new SystematicStrategy(maze, maze.getBag()).move(object_detail, number_of_objects, number_of_turns);
-		}
+//		if(true)
+//		{
+//			return new SystematicStrategy(maze, maze.getBag()).move(object_detail, number_of_objects, number_of_turns);
+//		}
+		
 		
 		Strategy strat;
-		strat = new SystematicStaggeredStrategy(maze,maze.getBag());
+		//strat = new SystematicStaggeredStrategy(maze,maze.getBag());
+		strat = new SystematicStrategy(maze,maze.getBag());
 		int startingRoom= 	maze.roomCount;
 		Move action =strat.move(object_detail, number_of_objects, number_of_turns); 
 		int door= strat.actionDoor;
+		
 		
 		
 		
@@ -69,7 +73,12 @@ public class G3IndianaHosed implements Player {
 			itemMapList.remove(maze.previousRoom.getItem());
 		}
 		
-		System.out.println("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
+		
+		log.debug("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
 		return action;
+	
     }
+
+
+
 }

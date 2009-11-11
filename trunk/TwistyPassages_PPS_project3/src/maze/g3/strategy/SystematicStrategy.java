@@ -69,7 +69,7 @@ public class SystematicStrategy extends Strategy {
 				+ maze.currentItemToDrop);
 
 		if (maze.getBag().isEmpty()) {
-			System.out.println("items over making random move..");
+			log.debug("items over making random move..");
 			maze.currentRoom.setDoorToTake(new Random().nextInt(9));
 		}
 
