@@ -40,7 +40,7 @@ public class SmartPlayer2 implements Player{
 		
 		if(current_turn == 0) {
 			/* Initial room, semi-special handling */
-			if (DEBUG_MODE) System.out.println("Starting G2 Player, " + number_of_objects + " objects, " + total_rounds + " turns");
+			if (DEBUG_MODE) log.debug("Starting G2 Player, " + number_of_objects + " objects, " + total_rounds + " turns");
 			this.num_Objects = number_of_objects;
 			
 			Room curRoom = new Room();
@@ -78,7 +78,7 @@ public class SmartPlayer2 implements Player{
 					foundTreasure = true;
 				}
 				
-				//System.out.println("We have found room " + object_detail + "!");
+				//log.debug("We have found room " + object_detail + "!");
 
 				object_locations.put(object_detail, curRoom);
 				/* We know something about the previous door to this room, change previous door */
@@ -86,7 +86,7 @@ public class SmartPlayer2 implements Player{
 					Room prevRoom = cur_path.origin;
 					prevRoom.known_neighbors[cur_path.steps.get(0)] = curRoom;
 					
-					if (DEBUG_MODE) System.out.println("Room with object #" + prevRoom.cur_obj + " can reach room with object #" + object_detail + " with door #" + cur_path.steps.get(0));
+					if (DEBUG_MODE) log.debug("Room with object #" + prevRoom.cur_obj + " can reach room with object #" + object_detail + " with door #" + cur_path.steps.get(0));
 				}
 				finishCurPath(curRoom);
 			}
@@ -122,17 +122,17 @@ public class SmartPlayer2 implements Player{
 					for(Integer i : directions) {
 						if (DEBUG_MODE) System.out.print(i.toString() + "   " );
 					}
-					if (DEBUG_MODE) System.out.println();
+					if (DEBUG_MODE) log.debug();
 				}
 				else {
-					if (DEBUG_MODE) System.out.println("\tWe know this room, and it has " + directions.size() + " unknown doors");
+					if (DEBUG_MODE) log.debug("\tWe know this room, and it has " + directions.size() + " unknown doors");
 				}
 				dir = directions.get(rand.nextInt(directions.size()));
 			}
 		}
 		
 		Move myMove = new Move(dir, item);
-		if (DEBUG_MODE) System.out.println("Trying to move "+ dir);
+		if (DEBUG_MODE) log.debug("Trying to move "+ dir);
 		prev_dir = dir;
 		cur_path.steps.add(dir);
 		current_turn++;
@@ -149,7 +149,7 @@ public class SmartPlayer2 implements Player{
 				if(!dropped.contains(i)) {
 					current_room.cur_obj = i;
 					object_locations.put(i, current_room);
-					if (DEBUG_MODE) System.out.println("\t\t\tDropping item #" + i);
+					if (DEBUG_MODE) log.debug("\t\t\tDropping item #" + i);
 					return i;
 				}
 			}	
