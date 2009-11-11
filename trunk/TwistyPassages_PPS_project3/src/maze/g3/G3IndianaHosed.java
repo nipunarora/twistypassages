@@ -8,6 +8,7 @@ package maze.g3;
 import java.util.HashMap;
 import java.util.Random;
 
+import maze.g3.Logger.LogLevel;
 import maze.g3.data.BagOfHolding;
 import maze.g3.data.History;
 import maze.g3.data.Path;
@@ -28,7 +29,7 @@ import maze.ui.Player;
  */
 public class G3IndianaHosed implements Player {
 	private Maze maze;
-	private Logger log;
+	private Logger log = new Logger( LogLevel.DEBUG, this.getClass());
 	public static int StagCounter=0;
 	public static Path path= new Path();
 	public static History history= new History();
@@ -55,8 +56,8 @@ public class G3IndianaHosed implements Player {
 		
 		
 		Strategy strat;
-		//strat = new SystematicStaggeredStrategy(maze,maze.getBag());
-		strat = new SystematicStrategy(maze,maze.getBag());
+		strat = new SystematicStaggeredStrategy(maze,maze.getBag());
+		//strat = new SystematicStrategy(maze,maze.getBag());
 		int startingRoom= 	maze.roomCount;
 		Move action =strat.move(object_detail, number_of_objects, number_of_turns); 
 		int door= strat.actionDoor;
