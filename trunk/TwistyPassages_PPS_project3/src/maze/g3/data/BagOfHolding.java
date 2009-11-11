@@ -75,5 +75,13 @@ public class BagOfHolding {
 		return bag.isEmpty();
 	}
 	
+	/**
+	 * returns no of items in the bag
+	 * @return
+	 */
+	public int getSize(){
+	return bag.size();	
+	}
+	
 
 }

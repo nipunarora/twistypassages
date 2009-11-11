@@ -12,6 +12,7 @@ import maze.g3.Logger.LogLevel;
 import maze.g3.data.BagOfHolding;
 import maze.g3.data.History;
 import maze.g3.data.Path;
+import maze.g3.data.Room;
 
 import maze.g3.data.Maze;
 import maze.g3.strategy.Strategy;
@@ -43,10 +44,10 @@ public class G3IndianaHosed implements Player {
 	public static int number_of_objects;
 	
 	boolean first =true;
+	
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
 		if(first){
 			maze = new Maze(number_of_objects);
-			first =false;
 		}
 		
 //		if(true)
@@ -54,15 +55,16 @@ public class G3IndianaHosed implements Player {
 //			return new SystematicStrategy(maze, maze.getBag()).move(object_detail, number_of_objects, number_of_turns);
 //		}
 		
-		
+		Room previousRoom1=maze.previousRoom;
+		int door= maze.previousDoor;
 		Strategy strat;
 		strat = new SystematicStaggeredStrategy(maze,maze.getBag());
 		//strat = new SystematicStrategy(maze,maze.getBag());
 		int startingRoom= 	maze.roomCount;
 		Move action =strat.move(object_detail, number_of_objects, number_of_turns); 
-		int door= strat.actionDoor;
 		
 		
+		Room currentRoom1= maze.previousRoom;
 		
 		
 		
@@ -74,9 +76,15 @@ public class G3IndianaHosed implements Player {
 			itemMapList.remove(maze.previousRoom.getItem());
 		}
 		
-		
-		log.debug("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
-		return action;
+	    if(!first){
+		history.addPath(previousRoom1.getId(), door, currentRoom1.getId());
+		path.addPath(previousRoom1.getId(), door, currentRoom1.getId());
+	    }
+	    first=false;
+	    
+	//	log.debug("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
+		log.debug("action Door: "+ action.getDoor()+ " action Item "+ action.getItem());
+	    return action;
 	
     }
 
