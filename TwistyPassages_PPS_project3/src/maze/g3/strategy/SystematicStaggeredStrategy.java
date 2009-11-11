@@ -162,6 +162,24 @@ public class SystematicStaggeredStrategy extends Strategy {
 				action= new Move(actionDoor, actionItem);
 				return action;
 			}
+			if(roomid==2){
+				for (int i=0;i<=9;i++){
+					if(r.doorRoomKey[i]==0)
+					{	
+						actionDoor=i;
+						break;
+					}
+					else
+						actionDoor=0;
+				}
+				actionItem=0;
+				
+				maze.previousRoom=r;
+				maze.previousDoor=0;
+				
+				action= new Move(actionDoor, actionItem);
+				return action;
+			}
 			
 			if(r.incomingEdgesCount()<10&&G3IndianaHosed.eliminationList.containsKey(objectDetail)){
 				log.debug("Elimination List Room but not fully explored");
@@ -195,12 +213,22 @@ public class SystematicStaggeredStrategy extends Strategy {
 				//find the neighbor with the maximum number of edges already explored and add it to the elimination list...
 				int maxindex=0;
 				int maxsize=0;
+				for (int i=0;i<=9;i++){
+					if(r.doorRoomKey[i]==0)
+					{	
+						actionDoor=i;
+						break;
+					}
+					else
+						actionDoor=G3IndianaHosed.rand.nextInt(10);
+				}
 				for(int i=0;i<G3IndianaHosed.path.startPaths.get(roomid).size();i++){
 					int destRoomId=G3IndianaHosed.path.startPaths.get(roomid).get(i).getDestinationRoom();
 					
-					if(maze.getRoom(destRoomId).incomingEdgesCount()!=10){
+					/*if(maze.getRoom(destRoomId).incomingEdgesCount()!=10){
 						actionDoor=i;
-					}
+					}*/
+
 					
 				/*	int count=maze.getRoom(destRoomId).incomingEdgesCount();
 					if(count==10){
@@ -239,6 +267,8 @@ public class SystematicStaggeredStrategy extends Strategy {
 							actionDoor=i;
 							break;
 						}
+						else
+							actionDoor=G3IndianaHosed.rand.nextInt(10);
 					}
 					actionItem=0;
 					
@@ -251,7 +281,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 
 			//if we are out of objects and we know an incoming edge and there is an item in that incoming edge room
 			
-				
+				/*
 				log.debug("Has an item really don't know where we are?");
 				G3IndianaHosed.StagCounter=0;
 				G3IndianaHosed.eliminationList.put(objectDetail, r.getId());
@@ -261,6 +291,8 @@ public class SystematicStaggeredStrategy extends Strategy {
 						actionDoor=i;
 						break;
 					}
+					else
+						actionDoor= G3IndianaHosed.rand.nextInt(10);
 				}
 				actionItem=0;
 				
@@ -268,7 +300,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 				maze.previousDoor=actionDoor;
 				
 				log.debug("RoomId:"+ maze.previousRoom.getId()+ "no of incoming edges known"+ maze.previousRoom.incomingEdgesCount());
-				return new Move(actionDoor, actionItem);
+				return new Move(actionDoor, actionItem);*/
 		}
 		
 		if(bag.isNotEmpty()==false){
