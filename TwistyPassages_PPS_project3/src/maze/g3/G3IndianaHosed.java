@@ -43,9 +43,14 @@ public class G3IndianaHosed implements Player {
 	public static boolean treasureRoomFlag=false;
 	public static int number_of_objects;
 	
+	public Path pathcopy= new Path();
+	
 	boolean first =true;
 	
 	public Move move(int object_detail, int number_of_objects, int number_of_turns) {
+		//stupid debugging help
+		pathcopy=path;
+		
 		if(first){
 			maze = new Maze(number_of_objects);
 		}

@@ -47,8 +47,8 @@ public class Path {
 			startPaths.put(startRoom, v);
 		}
 		if(destinationPaths.containsKey(startRoom)){
-			for(int i=0;i<startPaths.get(startRoom).size();i++){
-				if(e.equals(startPaths.get(i))){
+			for(int i=0;i<destinationPaths.get(startRoom).size();i++){
+				if(e.equals(destinationPaths.get(i))){
 					flag=true;
 				}
 			}
