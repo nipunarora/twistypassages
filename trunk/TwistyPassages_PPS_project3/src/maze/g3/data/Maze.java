@@ -7,6 +7,7 @@ import maze.g3.G3IndianaHosed;
 import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
 import maze.g3.data.Room.RoomType;
+import maze.g3.strategy.SystematicStrategy;
 
 public class Maze {
 
@@ -19,6 +20,7 @@ public class Maze {
 	public int roomCount = 1;
 	public Room previousRoom;
 	public Room currentRoom;
+	public Room nextRoom;
 	public int previousDoor;
 	BagOfHolding bag = new BagOfHolding();
 	
@@ -72,7 +74,7 @@ public class Maze {
 				.entrySet()) {
 			Room r = entrySet.getValue();
 			int doorNum = entrySet.getKey();
-			if (r.equals(currentRoom)) {
+			if (r.equals(currentRoom) || r.isNeverEnter) {
 				continue;
 			}
 			if (!r.hasFullDoorInfo() && !r.isTreasureRoom()) {
@@ -80,12 +82,40 @@ public class Maze {
 				return doorNum;
 			}
 		}
+		
+		// if all the child rooms have full door info then we shud pick up
+		// the object and take the door which leads to a room whose child room
+		// info is incomplete
+		for(Map.Entry<Integer, Room> entrySet : currentRoom.getNeighborMap()
+				.entrySet())
+		{
+			Room cr1 = entrySet.getValue();
+			int doorNum = entrySet.getKey();
+			if(cr1.equals(currentRoom) || cr1.isNeverEnter)
+			{
+				continue;
+			}
+			
+			for(Map.Entry<Integer, Room> entrySet2: cr1.getNeighborMap().entrySet())
+			{
+				Room cr2 = entrySet2.getValue();
+				if(cr2.equals(currentRoom) || cr2.equals(cr1) || cr2.isNeverEnter)
+				{
+					continue;
+				}
+				
+				if(!cr2.hasFullDoorInfo() && !cr2.isTreasureRoom())
+				{
+					return doorNum;
+				}
+			}
+		}
 
 		// TODO If all the children doors are resolved then u shud recursively check
 		// all the grand. grand.. children 
 		log.debug("all the children rooms are also resolved so returning 0***");
 		// for now returning 0
-		return 0;
+		return SystematicStrategy.getRandomMove(currentRoom);
 	}
 
 	public Room getStartRoom()
@@ -129,6 +159,15 @@ public class Maze {
 		return room;
 	}
 	
+	public Room createNewRoomWithOutItem() {
+		Room room = new Room(roomCount);
+		addNewRoom(roomCount, room);
+		currentItemToDrop = 0;
+		room.setItem(currentItemToDrop);
+		room.isRoomWithNoItem = true;
+		roomCount++;
+		return room;
+	}
 	
 	public Room createNewRoom() {
 		Room room = new Room(roomCount);
@@ -164,16 +203,24 @@ public class Maze {
 		return bag;
 	}
 	
+	public void updateKnowledge() {
+		for (Room r : map.values()) {
+			inwardRoomKnowledge(r);
+			r.calculateKnowledge();
+			print("rId =" + r.getId() + " O=" + r.getItem() + " inK="
+					+ r.getInwardRoomKnowledge() + " outK="
+					+ r.getOutwardRoomKnowledge() + " Vst="+ r.getNumVisits() + " !Enter="+r.isNeverEnter );
+		}
+	}
 	
+	public void print(String info) {
+		log.debug(info);
+	}
 	public void inwardRoomKnowledge(Room forRoom)
 	{
 		int count =0;
 		for(Room r: map.values())
 		{
-			if(r.equals(forRoom))
-			{
-				continue;
-			}
 			for(Room cr: r.getNeighborMap().values())
 			{
 				if(cr.equals(forRoom)){
@@ -183,4 +230,6 @@ public class Maze {
 		}
 		forRoom.setInwardRoomKnowledge(count);
 	}
+	
+	
 }
