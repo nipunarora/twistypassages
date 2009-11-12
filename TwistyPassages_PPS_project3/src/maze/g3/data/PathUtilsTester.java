@@ -51,7 +51,7 @@ public class PathUtilsTester {
 //		path.addPath(7, 5, 5);
 
 		path.displayPaths();
-		path.mergeAllSimilarRooms();
+		Vector<Integer> matches = path.mergeAllSimilarRooms(2);
 		path.displayPaths();
 		
 	}
