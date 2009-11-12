@@ -49,9 +49,23 @@ public class Room {
 	// Max of total room knowledge will be 20
 	private int total_room_knowledge = 0;
 	
+	// This flag indicates that we have complete knowledge of this room
+	// and one shud never enter the room 	 
+	public boolean isNeverEnter = false;
+	
+	public boolean isRoomWithNoItem = false;
+	
+	@Override
+	public String toString()
+	{
+		return ""+ roomId;
+	}
+	
 	public Room(int roomId) {
 		this.roomId = roomId;
 	}
+	
+
 
 	public void setRoomLink(int doorNum, Room room) {
 		Room room2 = doorToRoomMap.get(doorNum);
@@ -62,6 +76,10 @@ public class Room {
 //			throw new RuntimeException("A link from room_door " + roomId + "_"
 //					+ doorNum + " to room " + room.getId() + " exists already.");
 		}
+		if(room == null)
+		{
+			throw new RuntimeException("Trying to add a null room");
+		}
 		doorToRoomMap.put(doorNum, room);
 	}
 	
@@ -69,9 +87,9 @@ public class Room {
 		outward_room_knowledge = doorToRoomMap.size();
 		total_room_knowledge = outward_room_knowledge + inward_room_knowledge;
 
-		log.debug("Room " + roomId + ", outward_room_knowledge= "
-				+ outward_room_knowledge + " inward_room_knowledge= "
-				+ inward_room_knowledge);
+//		log.debug("Room " + roomId + ", outward_room_knowledge= "
+//				+ outward_room_knowledge + " inward_room_knowledge= "
+//				+ inward_room_knowledge);
 	}
 	
 	public boolean hasFullKnowledge()
@@ -228,5 +246,22 @@ public class Room {
 	public void setInwardRoomKnowledge(int count) {
 
 		inward_room_knowledge = count; 
+	}
+
+	public boolean isEntranceToStart() {
+		// TODO Auto-generated method stub
+		return roomType == RoomType.ENTRANCE_TO_START;
+	}
+
+	public boolean isEntranceToTreasure() {
+		// TODO Auto-generated method stub
+		return roomType == RoomType.ENTRANCE_TO_TREASURE;
+	}
+
+
+
+	public Room getRoomFrom(int doorNum) {
+		// TODO Auto-generated method stub
+		return doorToRoomMap.get(doorNum);
 	}
 }

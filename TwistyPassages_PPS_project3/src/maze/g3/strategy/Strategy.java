@@ -19,6 +19,11 @@ public abstract class Strategy {
 
 	protected Logger log = new Logger(LogLevel.DEBUG, this.getClass());
 	
+	public Strategy()
+	{
+		
+	}
+	
 	public Strategy(Maze maze, BagOfHolding bag)
 	{
 		this.maze = maze;
