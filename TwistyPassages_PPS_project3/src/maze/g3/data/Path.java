@@ -138,7 +138,7 @@ public class Path {
 	
 	private Vector<Edge> flipPath(Vector<Edge> path) {
 		// TODO Auto-generated method stub
-		Vector<Edge> flippedPath = null;
+		Vector<Edge> flippedPath = new Vector<Edge>();
 		for (int i = path.size()-1; i>=0; i--) {
 			flippedPath.add(path.get(i));
 		}
