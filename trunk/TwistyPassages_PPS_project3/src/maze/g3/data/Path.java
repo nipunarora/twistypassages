@@ -25,7 +25,7 @@ public class Path {
 	private Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
 	
 	//an ugly, ugly private global variable
-	Vector<Integer> roomThatWasMatched = new Vector<Integer>();
+	Vector<Integer> roomsThatWereMatched = new Vector<Integer>();
 	
 	/**
 	 * adds Edge information to a Path HashMap
@@ -151,17 +151,15 @@ public class Path {
 		return flippedPath;
 	}
 	
-	public boolean mergeAllSimilarRooms() {
-		boolean mergedRooms = false;
+	public Vector<Integer> mergeAllSimilarRooms( Integer threshold ) {
 		for( Map.Entry<Integer, Vector<Edge>> e: startPaths.entrySet() ) {
 			int targetRoom = e.getKey();
-			if ( hasMatchingRoom(targetRoom, Path.PathsToCheck.BOTH, 3)) {
-				mergedRooms = true;
-				//TODO Scan relevant data structures for merged rooms and replace
-				mergeRooms(roomThatWasMatched);
+			if ( hasMatchingRoom(targetRoom, Path.PathsToCheck.BOTH, threshold)) {
+				mergeRooms(roomsThatWereMatched);
 			}
 		}
-		return mergedRooms;
+		Vector<Integer> matches = roomsThatWereMatched;
+		return matches;
 	}
 	
 	/**
@@ -193,7 +191,7 @@ public class Path {
 			}
 		}
 		
-		if ( foundMatch ) roomThatWasMatched.add(0, room);
+		if ( foundMatch ) roomsThatWereMatched.add(0, room);
 
 		return foundMatch;
 //		if( pathsFlag == PathsToCheck.START ) return numStartMatches >= numMatchesNeeded;
@@ -204,9 +202,11 @@ public class Path {
 	public void mergeRooms(Vector<Integer> roomThatWasMatched2) {
 		// TODO Auto-generated method stub
 		int room = roomThatWasMatched2.get(0);
-		for ( Map.Entry<Integer, Vector<Edge>> entry: startPaths.entrySet() ) {
-			Vector<Edge> vectorOfEdges = entry.getValue();
-			for (int m=1; m<roomThatWasMatched2.size(); m++) { //notice that index 0 is for the room we are using
+		for (int m=1; m<roomThatWasMatched2.size(); m++) { //notice that index 0 is for the room we are using
+//			startPaths.remove(roomThatWasMatched2.get(m));
+//			destinationPaths.remove(roomThatWasMatched2.get(m));
+			for ( Map.Entry<Integer, Vector<Edge>> entry: startPaths.entrySet() ) {
+				Vector<Edge> vectorOfEdges = entry.getValue();
 				for (int test=0; test<vectorOfEdges.size(); test++) { 
 					if( roomThatWasMatched2.get(m) == vectorOfEdges.get(test).StartRoom ){
 						log.debug("room "+roomThatWasMatched2.get(m)+" merged with "+room);
@@ -234,7 +234,7 @@ public class Path {
 		log.debug("destinationPaths");
 		for ( Map.Entry<Integer, Vector<Edge>> entry: destinationPaths.entrySet()) {
 			for ( Edge edge: entry.getValue()) {
-				log.debug( edge.StartRoom + "<-" + edge.door + "<-" + edge.DestinationRoom );
+				log.debug( edge.StartRoom + "->" + edge.door + "->" + edge.DestinationRoom );
 			}
 		}
 	}
@@ -255,7 +255,7 @@ public class Path {
 					}
 				}
 				if (numMatches >= threshold) {
-					roomThatWasMatched.add(queriedRoom);
+					roomsThatWereMatched.add(queriedRoom);
 				}
 			}
 		}
