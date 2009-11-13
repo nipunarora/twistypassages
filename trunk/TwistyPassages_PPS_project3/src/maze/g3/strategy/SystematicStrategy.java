@@ -52,9 +52,9 @@ public class SystematicStrategy extends Strategy {
 			print("Entered start room");
 			enteredStartRoom();
 
-		} else if (objectDetail == 0 && !isNextRoomKnown) {
+		} else if (objectDetail == 0 && !isNextRoomKnown && !maze.getBag().isEmpty()) {
 
-			// Is an unvisited room
+			// Is an unvisited room and there are still items left
 			print("Unvisitied room dropping item and setting link");
 			enteredUnvisitedRoom();
 			if(isSecondRoom)
@@ -62,7 +62,6 @@ public class SystematicStrategy extends Strategy {
 				maze.currentRoom.setRoomType(RoomType.ENTRANCE_TO_START);
 				isSecondRoom = false;
 			}
-
 		} else if (objectDetail == 1 && maze.getTreasureRoom() == null) {
 			// TREASURE ROOM
 			enteredTreasureRoom();
@@ -73,6 +72,16 @@ public class SystematicStrategy extends Strategy {
 			print("Revisiting the start room..");
 			startRoomRevisit();
 		} else {
+			print("O="+ objectDetail + " isNextRoomKnown="+isNextRoomKnown + " itemEmpty="+maze.getBag().isEmpty());
+			if(objectDetail == 0 && !isNextRoomKnown && maze.getBag().isEmpty())
+			{
+				// if this is a new room and we dont have any items then
+				// dont create rooms just go random.
+				int nextInt = new Random().nextInt(10);
+				print("Move taken "+ nextInt);
+				return new Move(nextInt, 0);
+				
+			} 
 			// Any other room revisited.
 			anyRoomRevisited(objectDetail);
 			print("Revisiting a room containing " + objectDetail
@@ -105,6 +114,32 @@ public class SystematicStrategy extends Strategy {
 		} else {
 			maze.currentRoom = maze.getRoomByItem(objectDetail);
 			setRoomLink();
+		}
+		
+		if(maze.currentRoom.isEntranceToStart() && (maze.currentRoom.getOutwardRoomKnowledge() == 9))
+		{
+			boolean startRoomPathFound = false;
+			for(Room r : maze.currentRoom.doorToRoomMap.values())
+			{
+				if(r.getId() == 1)
+				{
+					startRoomPathFound = true;
+				}
+			}
+			
+			if(!startRoomPathFound)
+			{
+				int unknownDoorExit = maze.currentRoom.getUnknownDoorExit();
+				Room startRoom = maze.getRoomByType(RoomType.START);
+				maze.currentRoom.setRoomLink(unknownDoorExit, startRoom);
+				// outward edge count changes for previous Room
+				startRoom.calculateKnowledge();
+				maze.inwardRoomKnowledge(startRoom);
+
+				// Inward edge count changes for current room
+				maze.inwardRoomKnowledge(maze.currentRoom);
+				maze.currentRoom.calculateKnowledge();
+			}
 		}
 
 		// 
@@ -139,6 +174,10 @@ public class SystematicStrategy extends Strategy {
 	}
 
 	private void pickItem() {
+		if(objectDetail == 0)
+		{
+			return;
+		}
 		if (maze.currentRoom.isEntranceToStart()
 				|| maze.currentRoom.isEntranceToTreasure()) {
 			maze.currentItemToDrop = 0;
@@ -196,10 +235,10 @@ public class SystematicStrategy extends Strategy {
 	}
 
 	public static int getRandomMove(Room r) {
-		int doorNum = new Random().nextInt(9);
+		int doorNum = new Random().nextInt(10);
 		Room cr = r.getRoomFrom(doorNum);
 		while (cr.isTreasureRoom() || cr.isStartRoom()) {
-			doorNum = new Random().nextInt(9);
+			doorNum = new Random().nextInt(10);
 			cr = r.getRoomFrom(doorNum);
 		}
 		return doorNum;
