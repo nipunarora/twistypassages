@@ -476,7 +476,7 @@ public class GameEngine extends javax.swing.JFrame {
         gameconfig = null;
 
         gameconfig = iocontroller.makeGameConfig(mazename,playername,number_of_objects);
-        if(!txt_round_copy.getText().isEmpty() && !txt_round_copy.getText().equals("Rounds"))
+        if(!txt_round_copy.getText().isEmpty() && !txt_round_copy.getText().equals("Rounds") && !txt_round_copy.getText().equals("0"))
             gameconfig.number_of_turns = Integer.parseInt(txt_round_copy.getText());
         uicontroller = null;
         uicontroller = new JBVisualizer();
