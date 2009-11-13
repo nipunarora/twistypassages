@@ -62,4 +62,9 @@ public class Edge {
 		else
 			return false;
 	}
+
+	public Object getStartRoom() {
+		// TODO Auto-generated method stub
+		return StartRoom;
+	}
 }

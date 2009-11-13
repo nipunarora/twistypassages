@@ -25,7 +25,8 @@ public class Path {
 	private Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
 	
 	//an ugly, ugly private global variable
-	Vector<Integer> roomsThatWereMatched = new Vector<Integer>();
+	public Vector<Integer> roomsThatWereMatched = new Vector<Integer>();
+	
 	public void print(String info) {
 		log.debug(info);
 	}
@@ -169,10 +170,10 @@ public class Path {
 			}
 		}
 		Vector<Integer> matches = roomsThatWereMatched;
-//		for (int m=1; m<roomsThatWereMatched.size(); m++) { //notice that index 0 is for the room we are using
-//			startPaths.remove(roomsThatWereMatched.get(m));
-//			destinationPaths.remove(roomsThatWereMatched.get(m));
-//		}
+		for (int m=1; m<roomsThatWereMatched.size(); m++) { //notice that index 0 is for the room we are using
+			startPaths.remove(roomsThatWereMatched.get(m));
+			destinationPaths.remove(roomsThatWereMatched.get(m));
+		}
 		return matches;
 	}
 	
@@ -189,27 +190,29 @@ public class Path {
 		boolean foundMatch = false;
 		
 		if( pathsFlag == PathsToCheck.DESTINATION ) {
-			if( roomDestPaths != null && getEdgeMatches(roomDestPaths, destinationPaths, numMatchesNeeded)) {
+			if( roomDestPaths != null 
+					&& getEdgeMatches(roomDestPaths, destinationPaths, numMatchesNeeded, PathsToCheck.DESTINATION)) {
 				foundMatch = true;
 			}
 		}
 		else if( pathsFlag == PathsToCheck.START ) {
-			if( roomStartPaths != null && getEdgeMatches( roomStartPaths, startPaths, numMatchesNeeded )) {
+			if( roomStartPaths != null && getEdgeMatches( roomStartPaths, startPaths, numMatchesNeeded, PathsToCheck.START )) {
 				foundMatch = true;
 			}
 		}
 		else {
 			if( 	( roomStartPaths != null 
-					&& getEdgeMatches( roomStartPaths, startPaths, numMatchesNeeded) )
+					&& getEdgeMatches( roomStartPaths, startPaths, numMatchesNeeded, PathsToCheck.START) )
 					|| 
 					( roomDestPaths != null 
-					&& getEdgeMatches(roomDestPaths, destinationPaths, numMatchesNeeded)) )
+					&& getEdgeMatches(roomDestPaths, destinationPaths, numMatchesNeeded, PathsToCheck.DESTINATION)) )
 			{
 				foundMatch = true;
 			}
 		}
 		
 		if ( foundMatch ) roomsThatWereMatched.add(0, room);
+		log.debug("found match: "+foundMatch);
 
 		return foundMatch;
 //		if( pathsFlag == PathsToCheck.START ) return numStartMatches >= numMatchesNeeded;
@@ -257,27 +260,77 @@ public class Path {
 		}
 	}
 
-	public boolean getEdgeMatches(Vector<Edge> roomStartPaths,
-			HashMap<Integer, Vector<Edge>> startPaths2, int threshold) {
+	public boolean getEdgeMatches(Vector<Edge> roomPaths,
+			HashMap<Integer, Vector<Edge>> startPaths2, int threshold, PathsToCheck whichTest) {
 		int numMatches=0;
-		if( roomStartPaths.size() > 0 ) {
+		if( roomPaths.size() > 0 ) {
 			for (Map.Entry<Integer, Vector<Edge>> entrySet : startPaths2.entrySet()) {
 				Vector<Edge> queriedPaths = entrySet.getValue();
 				int queriedRoom = entrySet.getKey();
 				for( int i=0; i<queriedPaths.size(); i++ ) {
-					for( int j=0; j<roomStartPaths.size(); j++ ) {
-						if( queriedPaths.get(i).getDestinationRoom() == roomStartPaths.get(j).getDestinationRoom() 
-								&& queriedPaths.get(i).getDoor() == roomStartPaths.get(j).getDoor()) {
+					for( int j=0; j<roomPaths.size(); j++ ) {
+						if( whichTest == PathsToCheck.START
+								&& queriedPaths.get(i).getStartRoom() != roomPaths.get(0).getStartRoom()
+								&& queriedPaths.get(i).getDestinationRoom() == roomPaths.get(j).getDestinationRoom() 
+								&& queriedPaths.get(i).getDoor() == roomPaths.get(j).getDoor()) {
+							numMatches++; 
+							log.debug("matched destination "+queriedPaths.get(i).getStartRoom() + " " + roomPaths.get(j).getStartRoom() + " num matches "+numMatches);
+						}
+						else if( whichTest == PathsToCheck.DESTINATION	
+								&& queriedPaths.get(i).getDestinationRoom() != roomPaths.get(0).getDestinationRoom()
+								&& queriedPaths.get(i).getStartRoom() == roomPaths.get(j).getStartRoom() 
+								&& queriedPaths.get(i).getDoor() == roomPaths.get(j).getDoor()) {
 							numMatches++;
+							log.debug("matched destination "+queriedPaths.get(i).getStartRoom() + " " + roomPaths.get(j).getStartRoom() + " num matches "+numMatches);
 						}
 					}
 				}
 				if (numMatches >= threshold) {
-					roomsThatWereMatched.add(queriedRoom);
+					if (roomsThatWereMatched.size() == 0
+							|| roomsThatWereMatched.get(0) != queriedRoom)
+						roomsThatWereMatched.add(queriedRoom);
 				}
 			}
 		}
 		return (numMatches >= threshold);
+	}
+	
+	public boolean removeDupes( Vector<Edge> edges ) {
+		boolean found = false;
+		if( edges != null ) {
+			for ( int i=0; i<edges.size(); i++ ){
+				for ( int j=i+1; j<edges.size(); j++ ){
+					if( edges.get(i).getStartRoom() == edges.get(j).getStartRoom() 
+							&& edges.get(i).getDestinationRoom() == edges.get(j).getDestinationRoom()
+							&& edges.get(i).getDoor() == edges.get(j).getDoor()
+							) {
+						edges.remove(j);
+					}
+				}
+			}
+		}
+		return found;
+	}
+
+
+	public void mergeAndRemoveDupes(int roomIndex, PathsToCheck both,
+			int matchThreshold) {
+		if( hasMatchingRoom(3, PathsToCheck.BOTH, matchThreshold)) {
+			mergeRooms(roomsThatWereMatched);
+		}
+		displayPaths();
+		for (int m=1; m<roomsThatWereMatched.size(); m++) { //notice that index 0 is for the room we are using
+			System.out.println(roomsThatWereMatched.get(m));
+			startPaths.remove(roomsThatWereMatched.get(m));
+			destinationPaths.remove(roomsThatWereMatched.get(m));
+		}
+		for ( Map.Entry<Integer, Vector<Edge>> entry: startPaths.entrySet() ) {
+			removeDupes(entry.getValue());
+		}
+		for ( Map.Entry<Integer, Vector<Edge>> entry: destinationPaths.entrySet() ) {
+			removeDupes(entry.getValue());
+		}
+		displayPaths();
 	}
 	
 }
