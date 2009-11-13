@@ -59,13 +59,14 @@ public class Path {
 		}
 
 		if(destinationPaths.containsKey(destinationRoom)){
+			print("Destination path contains "+destinationRoom);
 			for(int i=0;i<destinationPaths.get(destinationRoom).size();i++){
 				if(e.equals(destinationPaths.get(i))){
 					flag=true;
 				}
 			}
 			if(flag==false){
-			destinationPaths.get(destinationRoom).add(e);
+				destinationPaths.get(destinationRoom).add(e);
 			}
 		}
 		else{
@@ -168,6 +169,10 @@ public class Path {
 			}
 		}
 		Vector<Integer> matches = roomsThatWereMatched;
+//		for (int m=1; m<roomsThatWereMatched.size(); m++) { //notice that index 0 is for the room we are using
+//			startPaths.remove(roomsThatWereMatched.get(m));
+//			destinationPaths.remove(roomsThatWereMatched.get(m));
+//		}
 		return matches;
 	}
 	
@@ -184,18 +189,22 @@ public class Path {
 		boolean foundMatch = false;
 		
 		if( pathsFlag == PathsToCheck.DESTINATION ) {
-			if( getEdgeMatches(roomDestPaths, destinationPaths, numMatchesNeeded)) {
+			if( roomDestPaths != null && getEdgeMatches(roomDestPaths, destinationPaths, numMatchesNeeded)) {
 				foundMatch = true;
 			}
 		}
 		else if( pathsFlag == PathsToCheck.START ) {
-			if( getEdgeMatches( roomStartPaths, startPaths, numMatchesNeeded )) {
+			if( roomStartPaths != null && getEdgeMatches( roomStartPaths, startPaths, numMatchesNeeded )) {
 				foundMatch = true;
 			}
 		}
 		else {
-			if( getEdgeMatches( roomStartPaths, startPaths, numMatchesNeeded)
-					&& getEdgeMatches(roomDestPaths, destinationPaths, numMatchesNeeded)) {
+			if( 	( roomStartPaths != null 
+					&& getEdgeMatches( roomStartPaths, startPaths, numMatchesNeeded) )
+					|| 
+					( roomDestPaths != null 
+					&& getEdgeMatches(roomDestPaths, destinationPaths, numMatchesNeeded)) )
+			{
 				foundMatch = true;
 			}
 		}
@@ -237,13 +246,13 @@ public class Path {
 		log.debug("startPaths");
 		for ( Map.Entry<Integer, Vector<Edge>> entry: startPaths.entrySet()) {
 			for ( Edge edge: entry.getValue()) {
-				log.debug( edge.StartRoom + "->" + edge.door + "->" + edge.DestinationRoom );
+				log.debug( entry.getKey() + ": " + edge.StartRoom + "->" + edge.door + "->" + edge.DestinationRoom );
 			}
 		}
 		log.debug("destinationPaths");
 		for ( Map.Entry<Integer, Vector<Edge>> entry: destinationPaths.entrySet()) {
 			for ( Edge edge: entry.getValue()) {
-				log.debug( edge.StartRoom + "->" + edge.door + "->" + edge.DestinationRoom );
+				log.debug( entry.getKey() + ": " + edge.StartRoom + "->" + edge.door + "->" + edge.DestinationRoom );
 			}
 		}
 	}
