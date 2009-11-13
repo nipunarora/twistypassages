@@ -22,6 +22,7 @@ public class Maze {
 	public Room currentRoom;
 	public Room nextRoom;
 	public int previousDoor;
+	public int nextRoomID=-1;
 	BagOfHolding bag = new BagOfHolding();
 	
 	public  Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
