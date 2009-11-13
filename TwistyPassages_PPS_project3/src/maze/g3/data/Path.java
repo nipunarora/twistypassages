@@ -51,20 +51,20 @@ public class Path {
 			v.add(e);
 			startPaths.put(startRoom, v);
 		}
-		if(destinationPaths.containsKey(startRoom)){
-			for(int i=0;i<destinationPaths.get(startRoom).size();i++){
+		if(destinationPaths.containsKey(destinationRoom)){
+			for(int i=0;i<destinationPaths.get(destinationRoom).size();i++){
 				if(e.equals(destinationPaths.get(i))){
 					flag=true;
 				}
 			}
 			if(flag==false){
-			destinationPaths.get(startRoom).add(e);
+			destinationPaths.get(destinationRoom).add(e);
 			}
 		}
 		else{
 			Vector<Edge> v= new Vector<Edge>();
 			v.add(e);
-			destinationPaths.put(startRoom, v);
+			destinationPaths.put(destinationRoom, v);
 		}
 	}
 	
