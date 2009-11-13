@@ -14,11 +14,13 @@ public class SystematicStaggeredStrategy extends Strategy {
 		// TODO Auto-generated constructor stub
 	}
 
-	
+	public void print(String info) {
+		log.debug(info);
+	}
 	public Move move(int objectDetail, int numberOfObjects, int numberOfTurns) {
 		log.debug("bag size: " + bag.getSize());
 		
-		
+		maze.printInfo();
 		
 		try{
 		Move action;
@@ -60,6 +62,8 @@ public class SystematicStaggeredStrategy extends Strategy {
 				setItem(r);
 				G3IndianaHosed.StagCounter++;
 				actionDoor=G3IndianaHosed.rand.nextInt(10);
+				print("Unexplored room & staggered Counter==0 ");
+				print("roomId= "+maze.previousRoom + " doorRoomKey["+maze.previousDoor+"]="+r.getId());
 				maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 				actionItem= r.getItem();
 				
@@ -82,6 +86,8 @@ public class SystematicStaggeredStrategy extends Strategy {
 				G3IndianaHosed.StagCounter++;
 				setItem(r);
 				actionDoor=G3IndianaHosed.rand.nextInt(10);
+				print("staggered Counter==1 ");
+				print("roomId= "+maze.previousRoom + " doorRoomKey["+maze.previousDoor+"]="+r.getId());
 				maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 				actionItem= r.getItem();
 				
@@ -99,6 +105,8 @@ public class SystematicStaggeredStrategy extends Strategy {
 			if(G3IndianaHosed.StagCounter>1){
 				log.debug("Rest of unexplored rooms");
 				Room r = maze.createNewRoom();
+				print("staggered Counter>1 ");
+				print("roomId= "+maze.previousRoom + " doorRoomKey["+maze.previousDoor+"]="+r.getId());
 				maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 				G3IndianaHosed.StagCounter++;
 				actionDoor=G3IndianaHosed.rand.nextInt(10);
@@ -127,6 +135,8 @@ public class SystematicStaggeredStrategy extends Strategy {
 			bag.returnItem(objectDetail);
 			
 			Room r= maze.createNewRoom();
+			print("treasure room ");
+			print("roomId= "+maze.previousRoom + " doorRoomKey["+maze.previousDoor+"]="+r.getId());
 			maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 			
 			for(int i=1; i<=9;i++){
@@ -150,6 +160,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 			log.debug("Already Explored Room");
 			int roomid=G3IndianaHosed.itemMapList.get(objectDetail);
 			Room r= maze.getRoom(roomid);
+			print("roomId= "+maze.previousRoom + " doorRoomKey["+maze.previousDoor+"]="+r.getId());
 			maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 			//if we do not know all incoming edges and it is in the elimination list
 			if(r.incomingEdgesCount()<10&&G3IndianaHosed.eliminationList.containsKey(objectDetail)){
@@ -277,6 +288,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 		if(bag.isNotEmpty()==false){
 			log.debug("bag is empty");
 			Room r= maze.createNewRoom();
+			print("roomId= "+maze.previousRoom + " doorRoomKey["+maze.previousDoor+"]="+r.getId());
 			maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 			
 			actionDoor= G3IndianaHosed.rand.nextInt(10);
@@ -295,6 +307,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 		else{
 			log.debug("Should never enter here");
 			Room r= maze.createNewRoom();
+			print("roomId= "+maze.previousRoom + " doorRoomKey["+maze.previousDoor+"]="+r.getId());
 			maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 			
 			actionDoor=G3IndianaHosed.rand.nextInt(10);

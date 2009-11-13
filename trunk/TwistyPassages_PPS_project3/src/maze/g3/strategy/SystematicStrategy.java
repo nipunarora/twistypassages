@@ -25,7 +25,6 @@ public class SystematicStrategy extends Strategy {
 	
 	public SystematicStrategy()
 	{
-		
 	}
 
 	/**
@@ -232,5 +231,4 @@ public class SystematicStrategy extends Strategy {
 		this.bag = maze.getBag();
 		
 	}
-
 }

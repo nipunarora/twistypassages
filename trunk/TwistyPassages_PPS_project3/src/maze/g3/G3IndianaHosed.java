@@ -33,7 +33,7 @@ public class G3IndianaHosed implements Player {
 	 * A switch to choose a strategy. If true uses SystematicStrategy, false
 	 * uses SystematicStaggeredStrategy.
 	 **/
-	boolean useSystematicStrategy = true;
+	boolean useSystematicStrategy = false;
 
 	private Maze maze;
 	private Logger log = new Logger(LogLevel.DEBUG, this.getClass());

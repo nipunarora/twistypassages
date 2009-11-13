@@ -55,10 +55,15 @@ public class Room {
 	
 	public boolean isRoomWithNoItem = false;
 	
+	
 	@Override
 	public String toString()
 	{
 		return ""+ roomId;
+	}
+	
+	public void print(String info) {
+		log.debug(info);
 	}
 	
 	public Room(int roomId) {
