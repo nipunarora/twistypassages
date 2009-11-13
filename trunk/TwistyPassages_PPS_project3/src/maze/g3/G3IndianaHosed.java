@@ -64,14 +64,14 @@ public class G3IndianaHosed implements Player {
 			maze = new Maze(number_of_objects);
 		}
 
-		if (useSystematicStrategy) {
+/*		if (useSystematicStrategy) {
 			if (first) {
 				first = false;
 				strategy.setMaze(maze);
 			}
 			return strategy.move(object_detail, number_of_objects,
 					number_of_turns);
-		}
+		}*/
 
 		Room previousRoom1 = maze.previousRoom;
 		int door = maze.previousDoor;
