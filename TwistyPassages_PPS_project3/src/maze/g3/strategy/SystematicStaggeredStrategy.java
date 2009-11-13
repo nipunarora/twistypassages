@@ -152,35 +152,6 @@ public class SystematicStaggeredStrategy extends Strategy {
 			Room r= maze.getRoom(roomid);
 			maze.previousRoom.doorRoomKey[maze.previousDoor]=r.getId();
 			//if we do not know all incoming edges and it is in the elimination list
-			if(roomid==1){
-				actionDoor=0;
-				actionItem=-1;
-				
-				maze.previousRoom=r;
-				maze.previousDoor=0;
-				
-				action= new Move(actionDoor, actionItem);
-				return action;
-			}
-			if(roomid==2){
-				for (int i=0;i<=9;i++){
-					if(r.doorRoomKey[i]==0)
-					{	
-						actionDoor=i;
-						break;
-					}
-					else
-						actionDoor=0;
-				}
-				actionItem=0;
-				
-				maze.previousRoom=r;
-				maze.previousDoor=0;
-				
-				action= new Move(actionDoor, actionItem);
-				return action;
-			}
-			
 			if(r.incomingEdgesCount()<10&&G3IndianaHosed.eliminationList.containsKey(objectDetail)){
 				log.debug("Elimination List Room but not fully explored");
 				G3IndianaHosed.StagCounter=1;
@@ -257,7 +228,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 			}
 			
 			//if we are in a neighbor
-				if(G3IndianaHosed.StagCounter==1&&!G3IndianaHosed.eliminationList.containsKey(objectDetail)){
+				if(!G3IndianaHosed.eliminationList.containsKey(objectDetail)){
 					
 					log.debug("Neighboring Room");
 					G3IndianaHosed.StagCounter++;
