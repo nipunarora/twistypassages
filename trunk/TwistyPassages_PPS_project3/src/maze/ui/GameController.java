@@ -21,8 +21,6 @@ public class GameController {
         count = 0;
     }
 
-
-
     public int GamePlay(GameConfig gameconfig)
     {
         // First we check if game has ended or no
