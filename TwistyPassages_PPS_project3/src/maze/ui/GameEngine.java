@@ -167,7 +167,7 @@ public class GameEngine extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14));
         jLabel2.setText("Round");
 
-        txt_round.setEditable(false);
+        txt_round.setEditable(true);
         txt_round.setText("Rounds");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14));
@@ -467,12 +467,17 @@ public class GameEngine extends javax.swing.JFrame {
         {
             return;
         }
+        
+        
      
         int number_of_objects = Integer.parseInt(txtbox_number_of_objects3.getText());
+        
         // Lets instantiate the gameconfig object for starters
         gameconfig = null;
 
         gameconfig = iocontroller.makeGameConfig(mazename,playername,number_of_objects);
+        if(!txt_round_copy.getText().isEmpty() && !txt_round_copy.getText().equals("Rounds"))
+            gameconfig.number_of_turns = Integer.parseInt(txt_round_copy.getText());
         uicontroller = null;
         uicontroller = new JBVisualizer();
         uicontroller.gc_local = gameconfig;

@@ -87,6 +87,7 @@ public class JBVisualizer extends GraphPanel{
 		{
 			addEdge(r.room1, r.room2, new Color(50,255,50));
 		}
+		System.out.println("edges = "+  gc_local.PassageList.size());
 	}
     private void addVertices() {
 		// TODO Auto-generated method stub
