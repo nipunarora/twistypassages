@@ -92,7 +92,6 @@ public class SystematicStrategy extends Strategy {
 		maze.nextRoom = maze.currentRoom.getRoomFrom(maze.currentRoom
 				.getDoorTaken());
 		if (maze.nextRoom != null) {
-			System.out.println("next room visiting is "+ maze.nextRoom.getId() + "*****");
 			isNextRoomKnown = true;
 		}else {
 			isNextRoomKnown = false;
