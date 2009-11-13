@@ -1,4 +1,8 @@
 package maze.g3.data;
+
+import maze.g3.Logger;
+import maze.g3.Logger.LogLevel;
+
 /**
  * 
  * @author Nipun Arora,Shilpa, Colin
@@ -11,6 +15,16 @@ public class Edge {
 	int StartRoom;
 	int door;
 	int DestinationRoom;
+	public  Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
+	
+	public void print(String info) {
+		log.debug(info);
+	}
+	
+	public String toString()
+	{
+		return "Edge: [StartRoom ="+StartRoom + " door="+door+" destiR="+DestinationRoom + " ]";
+	}
 
 	/**
 	 * default constructor

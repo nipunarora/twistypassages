@@ -26,6 +26,10 @@ public class Path {
 	
 	//an ugly, ugly private global variable
 	Vector<Integer> roomsThatWereMatched = new Vector<Integer>();
+	public void print(String info) {
+		log.debug(info);
+	}
+	
 	
 	/**
 	 * adds Edge information to a Path HashMap
@@ -35,8 +39,10 @@ public class Path {
 	 */
 	public void addPath(int startRoom, int door, int destinationRoom){
 		Edge e= new Edge(startRoom,door,destinationRoom);
+		print("Adding edge "+e);
 		Boolean flag=false;
 		if(startPaths.containsKey(startRoom)){
+			print("Start path contains "+startRoom);
 			for(int i=0;i<startPaths.get(startRoom).size();i++){
 				if(e.equals(startPaths.get(i))){
 					flag=true;
@@ -51,6 +57,7 @@ public class Path {
 			v.add(e);
 			startPaths.put(startRoom, v);
 		}
+
 		if(destinationPaths.containsKey(destinationRoom)){
 			for(int i=0;i<destinationPaths.get(destinationRoom).size();i++){
 				if(e.equals(destinationPaths.get(i))){
@@ -105,7 +112,9 @@ public class Path {
 					if ( !parentPath.containsKey(e.DestinationRoom))
 						parentPath.put(e.DestinationRoom, e);
 					if ( e.DestinationRoom == targetRoom ) {
-						return constructShortestPath( parentPath, e.DestinationRoom );
+						Vector<Edge> constructShortestPath = constructShortestPath( parentPath, e.DestinationRoom );
+						print("Shortes path from "+startRoom + " to "+targetRoom + " ="+constructShortestPath);
+						return constructShortestPath;
 					}
 				}
 			}
