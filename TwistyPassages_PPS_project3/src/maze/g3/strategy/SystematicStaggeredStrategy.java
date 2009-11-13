@@ -27,7 +27,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 		/**
 		 * Changing Stag Counter to 0 if it reaches 10
 		 */
-		if(G3IndianaHosed.StagCounter==2)
+		if(G3IndianaHosed.StagCounter==5)
 			G3IndianaHosed.StagCounter=0;
 		
 		
