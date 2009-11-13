@@ -57,7 +57,7 @@ public class SystematicStaggeredStrategy extends Strategy {
 			log.debug(" items are left");
 		    //Unexplored room & staggered Counter==0, when stagCounter =0 we leave an object in the room
 			if(G3IndianaHosed.StagCounter==0){
-				log.debug("Unexplored room");
+				log.debug("Unexplored room Adding to Elimination Room list");
 				Room r= maze.createNewRoom();
 				setItem(r);
 				G3IndianaHosed.StagCounter++;

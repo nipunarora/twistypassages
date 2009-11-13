@@ -170,9 +170,9 @@ public class Maze {
 	}
 	
 	public Room createNewRoom() {
+		roomCount++;
 		Room room = new Room(roomCount);
 		addNewRoom(roomCount, room);
-		roomCount++;
 		return room;
 	}
 	/**
