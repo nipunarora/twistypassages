@@ -25,7 +25,7 @@ public class Maze {
 	public int nextRoomID=-1;
 	BagOfHolding bag = new BagOfHolding();
 	
-	public  Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
+	public  Logger log = new Logger( LogLevel.NONE, this.getClass() );
 	
 	public Maze(int number_of_objects)
 	{
@@ -232,17 +232,5 @@ public class Maze {
 		forRoom.setInwardRoomKnowledge(count);
 	}
 
-	public void printInfo() {
-		for (Room r : map.values()) {
-			print("roomId =" + r.getId() + " item=" + r.getItem()
-					+ " knownEdgeCount=" + r.knownEdgesCount + " pathSegment=["
-					+ r.pathSegment + "]");
-			print("doorRoomKey Info ");
-			print("{");
-			for(int i =0; i < r.doorRoomKey.length; i++){
-				print(i +"-->"+r.doorRoomKey[i]);
-			}
-			print("}");
-		}
-	}
+	
 }
