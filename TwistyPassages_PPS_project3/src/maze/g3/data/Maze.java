@@ -232,5 +232,17 @@ public class Maze {
 		forRoom.setInwardRoomKnowledge(count);
 	}
 
-	
+	public void printInfo() {
+		for (Room r : map.values()) {
+			print("roomId =" + r.getId() + " item=" + r.getItem()
+					+ " knownEdgeCount=" + r.knownEdgesCount + " pathSegment=["
+					+ r.pathSegment + "]");
+			print("doorRoomKey Info ");
+			print("{");
+			for(int i =0; i < r.doorRoomKey.length; i++){
+				print(i +"-->"+r.doorRoomKey[i]);
+			}
+			print("}");
+		}
+	}
 }

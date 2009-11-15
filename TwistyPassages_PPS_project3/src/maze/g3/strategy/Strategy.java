@@ -17,7 +17,7 @@ public abstract class Strategy {
 	// bag of unique objects that shrinks or grows according to which objects have been dropped
 	protected BagOfHolding bag;
 
-	public Logger log = new Logger(LogLevel.DEBUG, this.getClass());
+	public Logger log = new Logger(LogLevel.NONE, this.getClass());
 	
 	public Strategy()
 	{

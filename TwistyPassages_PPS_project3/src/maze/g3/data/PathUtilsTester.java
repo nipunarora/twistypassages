@@ -9,9 +9,8 @@ public class PathUtilsTester {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-		Path path = new Path();
+		Path path = new Path(new Maze(3));
 		path.addPath(3, 5, 3);
 		path.addPath(3, 6, 5);
 		path.addPath(3, 4, 2);

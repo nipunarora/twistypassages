@@ -71,11 +71,11 @@ public class MazeGraph {
 		int firstUnexplored() {
 			for (int i = 0; i < this.exit_count; i++) {
 				if (null == exits[i]) {
-					System.err.println("Exploring " + i);
+					//System.err.println("Exploring " + i);
 					return i;
 				}
 			}
-			System.err.println("All explored: going with 0");
+			//System.err.println("All explored: going with 0");
 			return 0;
 		}
 
@@ -83,14 +83,14 @@ public class MazeGraph {
 			int chosen = -1;
 			for (int i = 0; i < this.exit_count; i++) {
 				if (null == exits[i]) {
-					System.err.println("Exploring " + i);
+					//System.err.println("Exploring " + i);
 					chosen = i;
 					break;
 				}
 			}
 			// if all are explored, avoid start and treasure rooms,
 			if (chosen < 0 ) {
-				System.err.println("All exits explored!");
+				//System.err.println("All exits explored!");
 				for (int i = 0; i < this.exit_count; i++) {
 					if (exits[i].isStartRoom()
 							|| exits[i].isTreasureRoom()
@@ -120,7 +120,7 @@ public class MazeGraph {
 	}
 
 	public Room foundObject(int object_detail, Room here) {
-		System.err.println("Found object " + object_detail);
+		//System.err.println("Found object " + object_detail);
 		if (here != object_locations[object_detail]) {
 			object_locations[object_detail].swallow(here);
 		}

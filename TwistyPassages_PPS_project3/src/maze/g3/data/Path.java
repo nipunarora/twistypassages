@@ -19,14 +19,19 @@ public class Path {
 	 */
 	public HashMap<Integer,Vector<Edge>> startPaths= new HashMap<Integer,Vector<Edge>>();
 	public HashMap<Integer,Vector<Edge>> destinationPaths= new HashMap<Integer,Vector<Edge>>();
-	
+	private Maze maze;
 	public static enum PathsToCheck { START, DESTINATION, BOTH };
 	
-	private Logger log = new Logger( LogLevel.DEBUG, this.getClass() );
+	private Logger log = new Logger( LogLevel.ERROR, this.getClass() );
 	
 	//an ugly, ugly private global variable
 	public Vector<Integer> roomsThatWereMatched = new Vector<Integer>();
 	
+	public Path(Maze maze) {
+		this.maze = maze;
+	}
+
+
 	public void print(String info) {
 		log.debug(info);
 	}
@@ -162,6 +167,11 @@ public class Path {
 		return flippedPath;
 	}
 	
+	/**
+	 * don't use this
+	 * @param threshold
+	 * @return
+	 */
 	public Vector<Integer> mergeAllSimilarRooms( Integer threshold ) {
 		for( Map.Entry<Integer, Vector<Edge>> e: startPaths.entrySet() ) {
 			int targetRoom = e.getKey();
@@ -224,6 +234,7 @@ public class Path {
 		// TODO Auto-generated method stub
 		int room = roomThatWasMatched2.get(0);
 		for (int m=1; m<roomThatWasMatched2.size(); m++) { //notice that index 0 is for the room we are using
+			maze.map.remove(roomsThatWereMatched.get(m));
 //			startPaths.remove(roomThatWasMatched2.get(m));
 //			destinationPaths.remove(roomThatWasMatched2.get(m));
 			for ( Map.Entry<Integer, Vector<Edge>> entry: startPaths.entrySet() ) {

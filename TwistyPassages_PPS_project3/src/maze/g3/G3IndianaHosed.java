@@ -7,6 +7,7 @@ package maze.g3;
 
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import maze.g3.Logger.LogLevel;
 import maze.g3.data.BagOfHolding;
@@ -34,11 +35,15 @@ public class G3IndianaHosed implements Player {
 	 * uses SystematicStaggeredStrategy.
 	 **/
 	boolean useSystematicStrategy = false;
+	public static int NumTurnsBeforePlacingObject = 10;
+	private boolean useMerge = true;
+	private int mergeThreshold = 7;
 
 	private Maze maze;
+	private Logger log = new Logger(LogLevel.ERROR, this.getClass());
 	private Logger log = new Logger(LogLevel.NONE, this.getClass());
 	public static int StagCounter = 0;
-	public static Path path = new Path();
+	public static Path path;
 	public static History history = new History();
 	// only rooms in the elimination list
 	public static HashMap<Integer, Integer> eliminationList = new HashMap<Integer, Integer>();
@@ -49,17 +54,26 @@ public class G3IndianaHosed implements Player {
 	public static boolean treasureRoomFlag = false;
 	public static int number_of_objects;
 
+	public Path pathcopy;
+
 	boolean first = true;
 
-	SystematicStrategy strategy = new SystematicStrategy();
-
+	//SystematicStrategy strategy = new SystematicStrategy();
+	//SystematicStaggeredStrategy strategy = new SystematicStaggeredStrategy(maze, null);
+	
 	public Move move(int object_detail, int number_of_objects,
 			int number_of_turns) {
+		// stupid debugging help
 
+		//NumTurnsBeforePlacingObject = number_of_turns/number_of_objects - number_of_objects;
+		
 		if (first) {
+			pathcopy = path;
 			maze = new Maze(number_of_objects);
+			path = new Path(maze);
 		}
 
+		pathcopy = path;
 /*		if (useSystematicStrategy) {
 			if (first) {
 				first = false;
@@ -70,15 +84,35 @@ public class G3IndianaHosed implements Player {
 		}*/
 		int previousRoom1=1;
 		if(!first){
-		previousRoom1 = maze.previousRoom.getId();
+			previousRoom1 = maze.previousRoom.getId();
 		}
 		 
 			
 		int door = maze.previousDoor;
 		Strategy strat;
-		strat = new SystematicStaggeredStrategy(maze, maze.getBag());
-		// strat = new SystematicStrategy(maze,maze.getBag());
+		if(useSystematicStrategy)
+			strat = new SystematicStrategy(maze,maze.getBag());
+		else
+			strat = new SystematicStaggeredStrategy(maze, maze.getBag());
 		int startingRoom = maze.roomCount;
+		if (useMerge ) {
+			path.mergeAndRemoveDupes(previousRoom1, Path.PathsToCheck.BOTH, mergeThreshold );
+			if( path.roomsThatWereMatched != null 
+					&& path.roomsThatWereMatched.size() > 1 ) {
+				log.debug("there's a room that was matched");
+				for (int i=1; i<path.roomsThatWereMatched.size(); i++) {
+					if( path.roomsThatWereMatched.get(i) == previousRoom1 ) {
+						previousRoom1 = path.roomsThatWereMatched.get(0);
+					}
+					for( Entry<Integer, Integer> entry: eliminationList.entrySet()) {
+						if(entry.getValue() == path.roomsThatWereMatched.get(i) ){
+							entry.setValue(path.roomsThatWereMatched.get(i));
+						}
+					}
+				}
+			}
+		}
+
 		Move action = strat.move(object_detail, number_of_objects,
 				number_of_turns);
 
@@ -98,8 +132,8 @@ public class G3IndianaHosed implements Player {
 		}
 		first = false;
 
-		// //log.debug("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
-		//log.debug("action Door: " + action.getDoor() + " action Item " + action.getItem());
+		// log.debug("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
+		log.debug("action Door: " + action.getDoor() + " action Item " + action.getItem());
 		return action;
 
 	}
