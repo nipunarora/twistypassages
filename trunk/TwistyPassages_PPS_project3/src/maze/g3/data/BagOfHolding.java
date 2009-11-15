@@ -14,7 +14,7 @@ import maze.g3.Logger.LogLevel;
 
 public class BagOfHolding {
 
-	private Logger log = new Logger(LogLevel.DEBUG, this.getClass());
+	private Logger log = new Logger(LogLevel.ERROR, this.getClass());
 	public int lastItemLabel;
 	// public boolean didPutItem;
 
