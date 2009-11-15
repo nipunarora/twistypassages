@@ -36,7 +36,7 @@ public class G3IndianaHosed implements Player {
 	boolean useSystematicStrategy = false;
 
 	private Maze maze;
-	private Logger log = new Logger(LogLevel.DEBUG, this.getClass());
+	private Logger log = new Logger(LogLevel.NONE, this.getClass());
 	public static int StagCounter = 0;
 	public static Path path = new Path();
 	public static History history = new History();
@@ -49,16 +49,12 @@ public class G3IndianaHosed implements Player {
 	public static boolean treasureRoomFlag = false;
 	public static int number_of_objects;
 
-	public Path pathcopy = new Path();
-
 	boolean first = true;
 
 	SystematicStrategy strategy = new SystematicStrategy();
 
 	public Move move(int object_detail, int number_of_objects,
 			int number_of_turns) {
-		// stupid debugging help
-		pathcopy = path;
 
 		if (first) {
 			maze = new Maze(number_of_objects);
@@ -102,8 +98,8 @@ public class G3IndianaHosed implements Player {
 		}
 		first = false;
 
-		// log.debug("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
-		log.debug("action Door: " + action.getDoor() + " action Item " + action.getItem());
+		// //log.debug("door:"+ strat.actionDoor+ " item:"+ strat.actionItem);
+		//log.debug("action Door: " + action.getDoor() + " action Item " + action.getItem());
 		return action;
 
 	}

@@ -13,7 +13,7 @@ import maze.g3.Logger;
 import maze.g3.Logger.LogLevel;
 
 public class Room {
-	private Logger log = new Logger(LogLevel.DEBUG, this.getClass());
+	private Logger log = new Logger(LogLevel.NONE, this.getClass());
 	public enum RoomType {
 		START, TREASURE, OTHER, ENTRANCE_TO_TREASURE, ENTRANCE_TO_START
 	}
