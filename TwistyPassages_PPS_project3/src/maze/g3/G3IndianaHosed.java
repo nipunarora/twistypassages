@@ -40,7 +40,6 @@ public class G3IndianaHosed implements Player {
 	private int mergeThreshold = 7;
 
 	private Maze maze;
-	private Logger log = new Logger(LogLevel.ERROR, this.getClass());
 	private Logger log = new Logger(LogLevel.NONE, this.getClass());
 	public static int StagCounter = 0;
 	public static Path path;
