@@ -1,0 +1,1 @@
+to find a way to map out an unknown graph in a limited number of moves.
